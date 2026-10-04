@@ -1,0 +1,476 @@
+<!DOCTYPE html>
+<html lang="lo">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lao Gaming Storefront - ระบบขายโปรเกม</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Font Awesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Google Font (Noto Sans Lao) -->
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Lao:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Noto Sans Lao', sans-serif;
+            background-color: #0f172a;
+            color: #f8fafc;
+        }
+        .glow-effect {
+            box-shadow: 0 0 15px rgba(168, 85, 247, 0.4);
+        }
+    </style>
+</head>
+<body class="min-h-screen flex flex-col justify-between">
+
+    <!-- Header / Navbar -->
+    <header class="bg-slate-900 border-b border-slate-800 sticky top-0 z-50">
+        <div class="max-w-7xl mx-auto px-4 py-3 flex justify-between items-center">
+            <div class="flex items-center space-x-3">
+                <i class="fa-solid font-bold text-2xl text-purple-500 fa-gamepad"></i>
+                <span class="text-xl font-bold bg-gradient-to-r from-purple-400 to-pink-500 bg-clip-text text-transparent">
+                    LAO GAMING PRO
+                </span>
+            </div>
+            
+            <div class="flex items-center space-x-3">
+                <!-- User Info -->
+                <div id="user-info" class="hidden flex items-center space-x-2 bg-slate-800 px-3 py-1.5 rounded-lg border border-slate-700">
+                    <i class="fa-solid fa-user-circle text-purple-400"></i>
+                    <span id="user-name" class="text-sm font-medium">ผู้ใช้งาน</span>
+                    <span id="user-balance" class="text-xs bg-purple-900 text-purple-200 px-2 py-0.5 rounded-full border border-purple-500">0 ₭</span>
+                </div>
+
+                <button id="login-btn" onclick="openLoginModal()" class="bg-purple-600 hover:bg-purple-700 text-white text-sm px-4 py-2 rounded-lg font-medium transition">
+                    <i class="fa-solid fa-right-to-bracket mr-1"></i> ເຂົ້າສູ່ລະບົບ (เข้าสู่ระบบ)
+                </button>
+
+                <!-- Admin Button -->
+                <button onclick="toggleAdminMode()" class="bg-amber-600 hover:bg-amber-700 text-white text-sm px-3 py-2 rounded-lg font-medium transition flex items-center">
+                    <i class="fa-solid fa-user-shield mr-1"></i> <span id="admin-btn-text">โหมด Admin</span>
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content Area -->
+    <main class="max-w-7xl mx-auto px-4 py-6 flex-grow w-full">
+
+        <!-- ==================== USER VIEW ==================== -->
+        <div id="user-view">
+            <!-- Banner -->
+            <div class="bg-gradient-to-r from-purple-900/60 to-slate-900 p-6 rounded-2xl border border-purple-500/30 mb-8 glow-effect">
+                <h1 class="text-2xl md:text-3xl font-bold text-white mb-2">
+                    ຮ້ານຂາຍໂປຣເກມ (ร้านขายโปรเกมภาษาลาว)
+                </h1>
+                <p class="text-slate-300 text-sm md:text-base">
+                    ราคาเริ่มต้นเพียง <span class="text-amber-400 font-bold text-lg">5,000 ₭</span> (ກີບ) เติมเงินผ่าน BCEL One สะดวกรวดเร็ว
+                </p>
+            </div>
+
+            <!-- Filter Game Tabs -->
+            <div class="flex space-x-2 overflow-x-auto pb-4 mb-6">
+                <button onclick="filterGame('all')" class="bg-purple-600 text-white px-4 py-2 rounded-xl text-sm font-medium whitespace-nowrap">ທັງໝົດ (ทั้งหมด)</button>
+                <button onclick="filterGame('Free Fire')" class="bg-slate-800 text-slate-300 hover:bg-slate-700 px-4 py-2 rounded-xl text-sm font-medium whitespace-nowrap">Free Fire</button>
+                <button onclick="filterGame('ROV')" class="bg-slate-800 text-slate-300 hover:bg-slate-700 px-4 py-2 rounded-xl text-sm font-medium whitespace-nowrap">ROV</button>
+                <button onclick="filterGame('Roblox')" class="bg-slate-800 text-slate-300 hover:bg-slate-700 px-4 py-2 rounded-xl text-sm font-medium whitespace-nowrap">Roblox</button>
+                <button onclick="filterGame('Mobile Legends')" class="bg-slate-800 text-slate-300 hover:bg-slate-700 px-4 py-2 rounded-xl text-sm font-medium whitespace-nowrap">Mobile Legends</button>
+            </div>
+
+            <!-- Product Cards Grid -->
+            <div id="product-grid" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+                <!-- Products dynamically rendered here -->
+            </div>
+        </div>
+
+        <!-- ==================== ADMIN DASHBOARD ==================== -->
+        <div id="admin-view" class="hidden space-y-6">
+            <div class="flex justify-between items-center border-b border-slate-800 pb-4">
+                <div>
+                    <h2 class="text-2xl font-bold text-amber-400">
+                        <i class="fa-solid fa-sliders mr-2"></i> แผงควบคุม Admin / ผู้พัฒนา
+                    </h2>
+                    <p class="text-slate-400 text-sm">จัดการสินค้า เพิ่ม/แก้ไข/ลบโปรเกม และใส่ลิงก์ดาวน์โหลด</p>
+                </div>
+                <button onclick="openConfigModal()" class="bg-slate-800 hover:bg-slate-700 text-amber-400 border border-amber-500/40 px-4 py-2 rounded-xl text-sm">
+                    <i class="fa-solid fa-gear mr-1"></i> ตั้งค่า QR Code / PIN
+                </button>
+            </div>
+
+            <!-- Form: Add Product -->
+            <div class="bg-slate-900 p-6 rounded-2xl border border-slate-800">
+                <h3 class="text-lg font-bold mb-4 text-purple-400">
+                    <i class="fa-solid fa-plus-circle mr-2"></i> เพิ่มสินค้า / โปรเกมใหม่
+                </h3>
+                <form id="add-product-form" onsubmit="handleAddProduct(event)" class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <div>
+                        <label class="block text-xs text-slate-400 mb-1">ชื่อโปร / สินค้า (ຊື່ສິນຄ້າ)</label>
+                        <input type="text" id="prod-title" required class="w-full bg-slate-800 border border-slate-700 rounded-lg p-2.5 text-sm text-white focus:outline-none focus:border-purple-500" placeholder="เช่น โปรมองทะลุ Free Fire VIP">
+                    </div>
+                    <div>
+                        <label class="block text-xs text-slate-400 mb-1">เลือกหมวดหมู่เกม</label>
+                        <select id="prod-category" class="w-full bg-slate-800 border border-slate-700 rounded-lg p-2.5 text-sm text-white focus:outline-none focus:border-purple-500">
+                            <option value="Free Fire">Free Fire</option>
+                            <option value="ROV">ROV</option>
+                            <option value="Roblox">Roblox</option>
+                            <option value="Mobile Legends">Mobile Legends</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label class="block text-xs text-slate-400 mb-1">ราคา (สกุลเงิน ₭ กีบ)</label>
+                        <input type="number" id="prod-price" required value="5000" class="w-full bg-slate-800 border border-slate-700 rounded-lg p-2.5 text-sm text-white focus:outline-none focus:border-purple-500">
+                    </div>
+                    <div>
+                        <label class="block text-xs text-slate-400 mb-1">ลิงก์รูปภาพตัวอย่างโปร (URL)</label>
+                        <input type="text" id="prod-image" required class="w-full bg-slate-800 border border-slate-700 rounded-lg p-2.5 text-sm text-white focus:outline-none focus:border-purple-500" placeholder="https://example.com/image.jpg">
+                    </div>
+                    <div>
+                        <label class="block text-xs text-slate-400 mb-1">ลิงก์ดาวน์โหลดโปร / Script Link / Key</label>
+                        <input type="text" id="prod-link" required class="w-full bg-slate-800 border border-slate-700 rounded-lg p-2.5 text-sm text-white focus:outline-none focus:border-purple-500" placeholder="https://mega.nz/... หรือ Key Code">
+                    </div>
+                    <div>
+                        <label class="block text-xs text-slate-400 mb-1">คำอธิบายเพิ่มเติม</label>
+                        <input type="text" id="prod-desc" class="w-full bg-slate-800 border border-slate-700 rounded-lg p-2.5 text-sm text-white focus:outline-none focus:border-purple-500" placeholder="รายละเอียดคุณสมบัติโปร">
+                    </div>
+                    <div class="md:col-span-2 flex justify-end">
+                        <button type="submit" class="bg-purple-600 hover:bg-purple-700 text-white font-medium px-6 py-2.5 rounded-lg text-sm transition">
+                            <i class="fa-solid fa-save mr-1"></i> บันทึกสินค้าลงระบบ
+                        </button>
+                    </div>
+                </form>
+            </div>
+
+            <!-- Table: Product Management -->
+            <div class="bg-slate-900 p-6 rounded-2xl border border-slate-800 overflow-x-auto">
+                <h3 class="text-lg font-bold mb-4 text-amber-400">รายการสินค้าในระบบทั้งหมด</h3>
+                <table class="w-full text-left text-sm text-slate-300">
+                    <thead class="bg-slate-800 text-xs text-slate-400 uppercase">
+                        <tr>
+                            <th class="p-3">รูปภาพ</th>
+                            <th class="p-3">ชื่อสินค้า</th>
+                            <th class="p-3">เกม</th>
+                            <th class="p-3">ราคา</th>
+                            <th class="p-3">ลิงก์โปร</th>
+                            <th class="p-3 text-center">จัดการ</th>
+                        </tr>
+                    </thead>
+                    <tbody id="admin-product-table">
+                        <!-- Admin products list rendered here -->
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-slate-900 border-t border-slate-800 py-4 text-center text-xs text-slate-500">
+        &copy; 2026 Lao Gaming Storefront System. All rights reserved.
+    </footer>
+
+    <!-- MODAL: LOGIN -->
+    <div id="login-modal" class="fixed inset-0 bg-black/70 hidden items-center justify-center p-4 z-50">
+        <div class="bg-slate-900 border border-slate-800 rounded-2xl max-w-sm w-full p-6 text-center relative">
+            <button onclick="closeModal('login-modal')" class="absolute top-4 right-4 text-slate-400 hover:text-white">
+                <i class="fa-solid fa-times"></i>
+            </button>
+            <h3 class="text-xl font-bold mb-4">ເຂົ້າສູ່ລະບົບ (เข้าสู่ระบบ)</h3>
+            <p class="text-xs text-slate-400 mb-6">เลือกช่องทางการเข้าสู่ระบบ</p>
+            
+            <div class="space-y-3">
+                <button onclick="loginWith('Google')" class="w-full bg-white text-slate-900 font-medium py-2.5 rounded-xl flex items-center justify-center space-x-2 text-sm hover:bg-slate-100">
+                    <i class="fa-brands fa-google text-red-500"></i>
+                    <span>เข้าสู่ระบบด้วย Google</span>
+                </button>
+                <button onclick="loginWith('Facebook')" class="w-full bg-blue-600 text-white font-medium py-2.5 rounded-xl flex items-center justify-center space-x-2 text-sm hover:bg-blue-700">
+                    <i class="fa-brands fa-facebook"></i>
+                    <span>เข้าสู่ระบบด้วย Facebook</span>
+                </button>
+                <button onclick="loginWith('Phone')" class="w-full bg-emerald-600 text-white font-medium py-2.5 rounded-xl flex items-center justify-center space-x-2 text-sm hover:bg-emerald-700">
+                    <i class="fa-solid fa-phone"></i>
+                    <span>เข้าสู่ระบบด้วย เบอร์โทรศัพท์</span>
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- MODAL: PURCHASE / PAYMENT -->
+    <div id="buy-modal" class="fixed inset-0 bg-black/70 hidden items-center justify-center p-4 z-50">
+        <div class="bg-slate-900 border border-slate-800 rounded-2xl max-w-md w-full p-6 relative">
+            <button onclick="closeModal('buy-modal')" class="absolute top-4 right-4 text-slate-400 hover:text-white">
+                <i class="fa-solid fa-times"></i>
+            </button>
+            <h3 class="text-lg font-bold mb-2 text-purple-400" id="modal-buy-title">สั่งซื้อสินค้า</h3>
+            <p class="text-sm text-slate-300 mb-4">ราคา: <span id="modal-buy-price" class="text-amber-400 font-bold"></span> ₭</p>
+
+            <div class="bg-slate-800 p-4 rounded-xl text-center mb-4 border border-slate-700">
+                <p class="text-xs text-slate-400 mb-2">สแกน QR Code เพื่อชำระเงิน (BCEL One)</p>
+                <img id="qr-display" src="https://via.placeholder.com/200x200?text=BCEL+One+QR" alt="QR Code" class="w-48 h-48 mx-auto rounded-lg mb-2 object-cover">
+                <p class="text-xs text-amber-300 font-mono" id="bank-acc-info">ธนาคาร BCEL One | บัญชี: 123-456-789</p>
+            </div>
+
+            <div class="space-y-3">
+                <label class="block text-xs text-slate-400">แนบสลิปการโอนเงิน (Slip)</label>
+                <input type="file" id="slip-file" accept="image/*" class="w-full text-xs text-slate-400 file:mr-4 file:py-2 file:px-4 file:rounded-lg file:border-0 file:text-xs file:font-semibold file:bg-purple-600 file:text-white hover:file:bg-purple-700">
+                <button onclick="confirmPayment()" class="w-full bg-emerald-600 hover:bg-emerald-700 text-white font-medium py-2.5 rounded-xl text-sm transition mt-2">
+                    ยืนยันการชำระเงิน
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- MODAL: ADMIN CONFIG -->
+    <div id="config-modal" class="fixed inset-0 bg-black/70 hidden items-center justify-center p-4 z-50">
+        <div class="bg-slate-900 border border-slate-800 rounded-2xl max-w-sm w-full p-6 relative">
+            <button onclick="closeModal('config-modal')" class="absolute top-4 right-4 text-slate-400 hover:text-white">
+                <i class="fa-solid fa-times"></i>
+            </button>
+            <h3 class="text-lg font-bold mb-4 text-amber-400">ตั้งค่าระบบ Admin</h3>
+            <div class="space-y-4">
+                <div>
+                    <label class="block text-xs text-slate-400 mb-1">URL รูปภาพ QR Code บัญชีโอนเงิน</label>
+                    <input type="text" id="cfg-qr" class="w-full bg-slate-800 border border-slate-700 rounded-lg p-2 text-sm text-white">
+                </div>
+                <div>
+                    <label class="block text-xs text-slate-400 mb-1">เลขบัญชี / ชื่อบัญชี</label>
+                    <input type="text" id="cfg-bank" class="w-full bg-slate-800 border border-slate-700 rounded-lg p-2 text-sm text-white">
+                </div>
+                <div>
+                    <label class="block text-xs text-slate-400 mb-1">เปลี่ยนรหัสผ่าน Admin PIN</label>
+                    <input type="text" id="cfg-pin" class="w-full bg-slate-800 border border-slate-700 rounded-lg p-2 text-sm text-white">
+                </div>
+                <button onclick="saveAdminConfig()" class="w-full bg-amber-600 hover:bg-amber-700 text-white font-medium py-2 rounded-xl text-sm">
+                    บันทึกการตั้งค่า
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- JavaScript Core Logic -->
+    <script>
+        let state = {
+            isAdmin: false,
+            adminPin: "1234",
+            qrUrl: "https://via.placeholder.com/200x200?text=BCEL+One+QR",
+            bankInfo: "BCEL One: 010-12-00-12345678-001 (Lao Pro Game)",
+            currentUser: null,
+            selectedProduct: null,
+            products: JSON.parse(localStorage.getItem('lao_gaming_products')) || [
+                {
+                    id: 1,
+                    title: "ໂໂປຣ Free Fire VIP (มองทะลุ/ล็อคหัว)",
+                    category: "Free Fire",
+                    price: 5000,
+                    image: "https://via.placeholder.com/300x180/7e22ce/ffffff?text=Free+Fire+Pro",
+                    link: "https://example.com/download-ff-pro",
+                    desc: "ใช้งานง่าย ปลอดภัย ไม่โดนแบน อัปเดตล่าสุด"
+                },
+                {
+                    id: 2,
+                    title: "ໂປຣ ROV Map Hack (เปิดแมพ 100%)",
+                    category: "ROV",
+                    price: 10000,
+                    image: "https://via.placeholder.com/300x180/1e40af/ffffff?text=ROV+Map+Hack",
+                    link: "https://example.com/download-rov-pro",
+                    desc: "เห็นศัตรูทั้งแมพ สกิลแม่นยำ"
+                }
+            ]
+        };
+
+        window.onload = () => {
+            renderProducts(state.products);
+            renderAdminProducts();
+            loadConfig();
+        };
+
+        function loadConfig() {
+            const savedPin = localStorage.getItem('lao_admin_pin');
+            const savedQr = localStorage.getItem('lao_admin_qr');
+            const savedBank = localStorage.getItem('lao_admin_bank');
+
+            if (savedPin) state.adminPin = savedPin;
+            if (savedQr) state.qrUrl = savedQr;
+            if (savedBank) state.bankInfo = savedBank;
+
+            document.getElementById('qr-display').src = state.qrUrl;
+            document.getElementById('bank-acc-info').innerText = state.bankInfo;
+        }
+
+        function renderProducts(list) {
+            const grid = document.getElementById('product-grid');
+            grid.innerHTML = '';
+
+            if (list.length === 0) {
+                grid.innerHTML = `<div class="col-span-full text-center py-10 text-slate-500">ບໍ່ພົບສິນຄ້າ (ไม่พบสินค้าในหมวดหมู่นี้)</div>`;
+                return;
+            }
+
+            list.forEach(p => {
+                grid.innerHTML += `
+                    <div class="bg-slate-900 border border-slate-800 rounded-2xl overflow-hidden hover:border-purple-500/50 transition flex flex-col justify-between">
+                        <div>
+                            <img src="${p.image}" alt="${p.title}" class="w-full h-40 object-cover">
+                            <div class="p-4">
+                                <span class="text-xs bg-purple-900/60 text-purple-300 px-2 py-0.5 rounded-full border border-purple-500/30">${p.category}</span>
+                                <h4 class="font-bold text-base mt-2 text-white line-clamp-1">${p.title}</h4>
+                                <p class="text-xs text-slate-400 mt-1 line-clamp-2">${p.desc || 'ไม่มีคำอธิบาย'}</p>
+                            </div>
+                        </div>
+                        <div class="p-4 pt-0 flex justify-between items-center">
+                            <div>
+                                <span class="text-xs text-slate-500 block">ราคา</span>
+                                <span class="text-lg font-bold text-amber-400">${p.price.toLocaleString()} ₭</span>
+                            </div>
+                            <button onclick="handleBuyClick(${p.id})" class="bg-purple-600 hover:bg-purple-700 text-white text-xs font-semibold px-4 py-2 rounded-xl transition">
+                                ສັ່ງຊື້ (สั่งซื้อ)
+                            </button>
+                        </div>
+                    </div>
+                `;
+            });
+        }
+
+        function renderAdminProducts() {
+            const table = document.getElementById('admin-product-table');
+            table.innerHTML = '';
+
+            state.products.forEach(p => {
+                table.innerHTML += `
+                    <tr class="border-b border-slate-800 hover:bg-slate-800/40">
+                        <td class="p-3"><img src="${p.image}" class="w-12 h-12 object-cover rounded-lg"></td>
+                        <td class="p-3 font-semibold text-white">${p.title}</td>
+                        <td class="p-3"><span class="text-xs bg-slate-800 px-2 py-1 rounded">${p.category}</span></td>
+                        <td class="p-3 text-amber-400 font-bold">${p.price.toLocaleString()} ₭</td>
+                        <td class="p-3 text-xs text-slate-400 truncate max-w-[150px]"><a href="${p.link}" target="_blank" class="underline text-purple-400">${p.link}</a></td>
+                        <td class="p-3 text-center">
+                            <button onclick="deleteProduct(${p.id})" class="bg-red-600/20 hover:bg-red-600 text-red-400 hover:text-white px-2.5 py-1 rounded-lg text-xs transition">
+                                <i class="fa-solid fa-trash"></i> ลบ
+                            </button>
+                        </td>
+                    </tr>
+                `;
+            });
+        }
+
+        function filterGame(category) {
+            if (category === 'all') {
+                renderProducts(state.products);
+            } else {
+                const filtered = state.products.filter(p => p.category === category);
+                renderProducts(filtered);
+            }
+        }
+
+        function toggleAdminMode() {
+            if (!state.isAdmin) {
+                const inputPin = prompt("กรุณากรอกรหัสผ่าน Admin (PIN ชั่วคราวคือ: 1234):");
+                if (inputPin === state.adminPin) {
+                    state.isAdmin = true;
+                    document.getElementById('user-view').classList.add('hidden');
+                    document.getElementById('admin-view').classList.remove('hidden');
+                    document.getElementById('admin-btn-text').innerText = "โหมดผู้ใช้";
+                } else if (inputPin !== null) {
+                    alert("รหัสผ่านไม่ถูกต้อง!");
+                }
+            } else {
+                state.isAdmin = false;
+                document.getElementById('user-view').classList.remove('hidden');
+                document.getElementById('admin-view').classList.add('hidden');
+                document.getElementById('admin-btn-text').innerText = "โหมด Admin";
+            }
+        }
+
+        function handleAddProduct(e) {
+            e.preventDefault();
+            const newProd = {
+                id: Date.now(),
+                title: document.getElementById('prod-title').value,
+                category: document.getElementById('prod-category').value,
+                price: Number(document.getElementById('prod-price').value),
+                image: document.getElementById('prod-image').value,
+                link: document.getElementById('prod-link').value,
+                desc: document.getElementById('prod-desc').value
+            };
+
+            state.products.push(newProd);
+            localStorage.setItem('lao_gaming_products', JSON.stringify(state.products));
+
+            renderProducts(state.products);
+            renderAdminProducts();
+            document.getElementById('add-product-form').reset();
+            alert("เพิ่มสินค้าเรียบร้อยแล้ว!");
+        }
+
+        function deleteProduct(id) {
+            if (confirm("คุณแน่ใจหรือไม่ว่าต้องการลบสินค้านี้?")) {
+                state.products = state.products.filter(p => p.id !== id);
+                localStorage.setItem('lao_gaming_products', JSON.stringify(state.products));
+                renderProducts(state.products);
+                renderAdminProducts();
+            }
+        }
+
+        function handleBuyClick(id) {
+            if (!state.currentUser) {
+                openLoginModal();
+                return;
+            }
+            state.selectedProduct = state.products.find(p => p.id === id);
+            document.getElementById('modal-buy-title').innerText = state.selectedProduct.title;
+            document.getElementById('modal-buy-price').innerText = state.selectedProduct.price.toLocaleString();
+            document.getElementById('buy-modal').classList.remove('hidden');
+            document.getElementById('buy-modal').classList.add('flex');
+        }
+
+        function confirmPayment() {
+            const slip = document.getElementById('slip-file').files[0];
+            if (!slip) {
+                alert("กรุณาแนบสลิปการโอนเงิน!");
+                return;
+            }
+            alert(`ส่งข้อมูลการสั่งซื้อสำเร็จ!\nลิงก์ดาวน์โหลดสินค้าของคุณคือ:\n${state.selectedProduct.link}`);
+            closeModal('buy-modal');
+        }
+
+        function loginWith(provider) {
+            state.currentUser = { name: `User (${provider})`, balance: 0 };
+            document.getElementById('user-name').innerText = state.currentUser.name;
+            document.getElementById('user-info').classList.remove('hidden');
+            document.getElementById('login-btn').classList.add('hidden');
+            closeModal('login-modal');
+        }
+
+        function openConfigModal() {
+            document.getElementById('cfg-qr').value = state.qrUrl;
+            document.getElementById('cfg-bank').value = state.bankInfo;
+            document.getElementById('cfg-pin').value = state.adminPin;
+            document.getElementById('config-modal').classList.remove('hidden');
+            document.getElementById('config-modal').classList.add('flex');
+        }
+
+        function saveAdminConfig() {
+            state.qrUrl = document.getElementById('cfg-qr').value;
+            state.bankInfo = document.getElementById('cfg-bank').value;
+            state.adminPin = document.getElementById('cfg-pin').value;
+
+            localStorage.setItem('lao_admin_qr', state.qrUrl);
+            localStorage.setItem('lao_admin_bank', state.bankInfo);
+            localStorage.setItem('lao_admin_pin', state.adminPin);
+
+            loadConfig();
+            closeModal('config-modal');
+            alert("บันทึกการตั้งค่าเรียบร้อยแล้ว!");
+        }
+
+        function openLoginModal() {
+            document.getElementById('login-modal').classList.remove('hidden');
+            document.getElementById('login-modal').classList.add('flex');
+        }
+
+        function closeModal(id) {
+            document.getElementById(id).classList.add('hidden');
+            document.getElementById(id).classList.remove('flex');
+        }
+    </script>
+</body>
+</html>
