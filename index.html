@@ -1,328 +1,547 @@
 <!DOCTYPE html>
-<html lang="lo">
+<html lang="lo" class="dark">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Lao Gaming Storefront - ระบบขายโปรเกม</title>
-    <!-- Tailwind CSS -->
+    <title>Lao Mod Store - ຮ້ານຂາຍໂປຣເກມອັນດັບ 1</title>
+    <!-- Tailwind CSS CDN -->
     <script src="https://cdn.tailwindcss.com"></script>
-    <!-- Font Awesome Icons -->
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    colors: {
+                        darkBg: '#0b0f19',
+                        cardBg: '#111827',
+                        neonCyan: '#06b6d4',
+                        neonPurple: '#8b5cf6',
+                        neonPink: '#ec4899',
+                    }
+                }
+            }
+        }
+    </script>
+    <!-- FontAwesome Icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <!-- Google Font (Noto Sans Lao) -->
-    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Lao:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <!-- Google Fonts (Saysettha OT / Phetsarath OT lookalike) -->
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Lao:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    
+    <!-- Firebase SDKs -->
+    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-database-compat.js"></script>
+
     <style>
         body {
             font-family: 'Noto Sans Lao', sans-serif;
-            background-color: #0f172a;
-            color: #f8fafc;
+            background-color: #0b0f19;
+            color: #f3f4f6;
         }
-        .glow-effect {
-            box-shadow: 0 0 15px rgba(168, 85, 247, 0.4);
+        .glow-cyan {
+            box-shadow: 0 0 20px rgba(6, 182, 212, 0.4);
+        }
+        .glow-purple {
+            box-shadow: 0 0 20px rgba(139, 92, 246, 0.4);
+        }
+        .text-glow {
+            text-shadow: 0 0 10px rgba(6, 182, 212, 0.6);
         }
     </style>
 </head>
-<body class="min-h-screen flex flex-col justify-between">
+<body class="bg-darkBg min-h-screen flex flex-col justify-between selection:bg-neonCyan selection:text-black">
 
-    <!-- Header / Navbar -->
-    <header class="bg-slate-900 border-b border-slate-800 sticky top-0 z-50">
-        <div class="max-w-7xl mx-auto px-4 py-3 flex justify-between items-center">
-            <div class="flex items-center space-x-3">
-                <i class="fa-solid font-bold text-2xl text-purple-500 fa-gamepad"></i>
-                <span class="text-xl font-bold bg-gradient-to-r from-purple-400 to-pink-500 bg-clip-text text-transparent">
-                    LAO GAMING PRO
-                </span>
+    <!-- TOP NAVIGATION -->
+    <header class="sticky top-0 z-50 bg-cardBg/90 backdrop-blur-md border-b border-gray-800">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-20 flex items-center justify-between">
+            <!-- Logo -->
+            <div class="flex items-center space-x-3 cursor-pointer" onclick="switchTab('shop')">
+                <div class="w-12 h-12 rounded-xl bg-gradient-to-tr from-neonCyan to-neonPurple flex items-center justify-center glow-cyan">
+                    <i class="fa-solid fa-gamepad text-2xl text-black font-bold"></i>
+                </div>
+                <div>
+                    <span class="text-2xl font-bold bg-gradient-to-r from-neonCyan to-neonPink bg-clip-text text-transparent text-glow">LAO MOD STORE</span>
+                    <p class="text-xs text-gray-400">ລະບົບໂປຣເກມອັດຕະໂນມັດ 100%</p>
+                </div>
             </div>
-            
-            <div class="flex items-center space-x-3">
-                <!-- User Info -->
-                <div id="user-info" class="hidden flex items-center space-x-2 bg-slate-800 px-3 py-1.5 rounded-lg border border-slate-700">
-                    <i class="fa-solid fa-user-circle text-purple-400"></i>
-                    <span id="user-name" class="text-sm font-medium">ผู้ใช้งาน</span>
-                    <span id="user-balance" class="text-xs bg-purple-900 text-purple-200 px-2 py-0.5 rounded-full border border-purple-500">0 ₭</span>
+
+            <!-- Desktop Nav Menu -->
+            <nav class="hidden md:flex items-center space-x-6">
+                <button onclick="switchTab('shop')" id="nav-shop" class="text-neonCyan font-semibold transition hover:text-neonCyan flex items-center gap-2">
+                    <i class="fa-solid fa-store"></i> ໜ້າຫຼັກ / ຮ້ານຄ້າ
+                </button>
+                <button onclick="switchTab('topup')" id="nav-topup" class="text-gray-300 hover:text-neonCyan transition flex items-center gap-2">
+                    <i class="fa-solid fa-wallet"></i> เติມເງິນ BCEL
+                </button>
+                <button onclick="switchTab('inventory')" id="nav-inventory" class="text-gray-300 hover:text-neonCyan transition flex items-center gap-2">
+                    <i class="fa-solid fa-box-archive"></i> ຄັງໂປຣຂອງຂ້ອຍ
+                </button>
+                <button onclick="switchTab('admin')" id="nav-admin" class="hidden text-neonPink hover:text-pink-400 transition flex items-center gap-2 font-bold">
+                    <i class="fa-solid fa-user-shield"></i> ລະບົບແອດມິນ
+                </button>
+            </nav>
+
+            <!-- User Auth & Wallet Widget -->
+            <div class="flex items-center space-x-4">
+                <div id="user-wallet-box" class="hidden items-center bg-gray-900 border border-gray-700 px-4 py-2 rounded-xl space-x-2">
+                    <i class="fa-solid fa-coins text-yellow-400"></i>
+                    <span id="user-balance" class="font-bold text-yellow-400">0</span> <span class="text-xs text-gray-400">₭</span>
                 </div>
 
-                <button id="login-btn" onclick="openLoginModal()" class="bg-purple-600 hover:bg-purple-700 text-white text-sm px-4 py-2 rounded-lg font-medium transition">
-                    <i class="fa-solid fa-right-to-bracket mr-1"></i> ເຂົ້າສູ່ລະບົບ (เข้าสู่ระบบ)
-                </button>
+                <div id="auth-action-area">
+                    <button onclick="openModal('loginModal')" class="bg-gradient-to-r from-neonCyan to-neonPurple text-black font-bold px-5 py-2.5 rounded-xl hover:opacity-95 transition glow-cyan">
+                        <i class="fa-solid fa-right-to-bracket mr-2"></i> ເຂົ້າສູ່ລະບົບ
+                    </button>
+                </div>
 
-                <!-- Admin Button -->
-                <button onclick="toggleAdminMode()" class="bg-amber-600 hover:bg-amber-700 text-white text-sm px-3 py-2 rounded-lg font-medium transition flex items-center">
-                    <i class="fa-solid fa-user-shield mr-1"></i> <span id="admin-btn-text">โหมด Admin</span>
-                </button>
+                <div id="user-profile-area" class="hidden items-center space-x-3">
+                    <div class="text-right hidden sm:block">
+                        <div id="username-display" class="font-bold text-sm text-gray-200">User</div>
+                        <div class="text-xs text-neonCyan">ສະມາຊິກແລ້ວ</div>
+                    </div>
+                    <button onclick="logout()" class="bg-red-500/20 text-red-400 border border-red-500/30 p-2.5 rounded-xl hover:bg-red-500 hover:text-white transition" title="ອອກຈາກລະບົບ">
+                        <i class="fa-solid fa-power-off"></i>
+                    </button>
+                </div>
             </div>
         </div>
     </header>
 
-    <!-- Main Content Area -->
-    <main class="max-w-7xl mx-auto px-4 py-6 flex-grow w-full">
+    <!-- MAIN CONTAINER -->
+    <main class="flex-grow max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 w-full">
 
-        <!-- ==================== USER VIEW ==================== -->
-        <div id="user-view">
-            <!-- Banner -->
-            <div class="bg-gradient-to-r from-purple-900/60 to-slate-900 p-6 rounded-2xl border border-purple-500/30 mb-8 glow-effect">
-                <h1 class="text-2xl md:text-3xl font-bold text-white mb-2">
-                    ຮ້ານຂາຍໂປຣເກມ (ร้านขายโปรเกมภาษาลาว)
-                </h1>
-                <p class="text-slate-300 text-sm md:text-base">
-                    ราคาเริ่มต้นเพียง <span class="text-amber-400 font-bold text-lg">5,000 ₭</span> (ກີບ) เติมเงินผ่าน BCEL One สะดวกรวดเร็ว
-                </p>
-            </div>
-
-            <!-- Filter Game Tabs -->
-            <div class="flex space-x-2 overflow-x-auto pb-4 mb-6">
-                <button onclick="filterGame('all')" class="bg-purple-600 text-white px-4 py-2 rounded-xl text-sm font-medium whitespace-nowrap">ທັງໝົດ (ทั้งหมด)</button>
-                <button onclick="filterGame('Free Fire')" class="bg-slate-800 text-slate-300 hover:bg-slate-700 px-4 py-2 rounded-xl text-sm font-medium whitespace-nowrap">Free Fire</button>
-                <button onclick="filterGame('ROV')" class="bg-slate-800 text-slate-300 hover:bg-slate-700 px-4 py-2 rounded-xl text-sm font-medium whitespace-nowrap">ROV</button>
-                <button onclick="filterGame('Roblox')" class="bg-slate-800 text-slate-300 hover:bg-slate-700 px-4 py-2 rounded-xl text-sm font-medium whitespace-nowrap">Roblox</button>
-                <button onclick="filterGame('Mobile Legends')" class="bg-slate-800 text-slate-300 hover:bg-slate-700 px-4 py-2 rounded-xl text-sm font-medium whitespace-nowrap">Mobile Legends</button>
-            </div>
-
-            <!-- Product Cards Grid -->
-            <div id="product-grid" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
-                <!-- Products dynamically rendered here -->
-            </div>
-        </div>
-
-        <!-- ==================== ADMIN DASHBOARD ==================== -->
-        <div id="admin-view" class="hidden space-y-6">
-            <div class="flex justify-between items-center border-b border-slate-800 pb-4">
-                <div>
-                    <h2 class="text-2xl font-bold text-amber-400">
-                        <i class="fa-solid fa-sliders mr-2"></i> แผงควบคุม Admin / ผู้พัฒนา
-                    </h2>
-                    <p class="text-slate-400 text-sm">จัดการสินค้า เพิ่ม/แก้ไข/ลบโปรเกม และใส่ลิงก์ดาวน์โหลด</p>
+        <!-- TAB 1: SHOP & PRODUCTS -->
+        <section id="tab-shop" class="space-y-8">
+            <!-- Hero Banner -->
+            <div class="relative rounded-3xl overflow-hidden bg-gradient-to-r from-purple-900/40 via-cyan-900/40 to-blue-900/40 border border-gray-800 p-8 sm:p-12 text-center glow-purple">
+                <div class="relative z-10 max-w-2xl mx-auto space-y-4">
+                    <span class="bg-neonCyan/10 text-neonCyan border border-neonCyan/30 text-xs px-3 py-1 rounded-full uppercase tracking-wider font-semibold">🔥 ໂປຣເກມອັບເດດໃໝ່ຫຼ້າສຸດ 2026</span>
+                    <h1 class="text-3xl sm:text-5xl font-extrabold tracking-tight text-white">
+                        ສູນລວມໂປຣເກມ <span class="bg-gradient-to-r from-neonCyan to-neonPink bg-clip-text text-transparent">Free Fire, ROV, Roblox</span>
+                    </h1>
+                    <p class="text-gray-300 text-sm sm:text-base">
+                        ປອດໄພ 100%, ລະບົບອັດຕະໂນມັດ, ຊື້ແລ້ວໄດ້ໂຄດທັນທີ ພ້ອມໃຊ້ງານໃນເກມໄດ້ເລີຍ!
+                    </p>
                 </div>
-                <button onclick="openConfigModal()" class="bg-slate-800 hover:bg-slate-700 text-amber-400 border border-amber-500/40 px-4 py-2 rounded-xl text-sm">
-                    <i class="fa-solid fa-gear mr-1"></i> ตั้งค่า QR Code / PIN
-                </button>
             </div>
 
-            <!-- Form: Add Product -->
-            <div class="bg-slate-900 p-6 rounded-2xl border border-slate-800">
-                <h3 class="text-lg font-bold mb-4 text-purple-400">
-                    <i class="fa-solid fa-plus-circle mr-2"></i> เพิ่มสินค้า / โปรเกมใหม่
-                </h3>
-                <form id="add-product-form" onsubmit="handleAddProduct(event)" class="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <!-- Category Filter Buttons -->
+            <div class="flex items-center justify-center space-x-2 sm:space-x-4 overflow-x-auto pb-2">
+                <button onclick="filterCategory('all')" class="cat-btn active px-5 py-2 rounded-xl bg-neonCyan text-black font-bold text-sm transition">ທັງໝົດ</button>
+                <button onclick="filterCategory('Free Fire')" class="cat-btn px-5 py-2 rounded-xl bg-gray-800 text-gray-300 hover:bg-gray-700 font-bold text-sm transition">Free Fire</button>
+                <button onclick="filterCategory('ROV')" class="cat-btn px-5 py-2 rounded-xl bg-gray-800 text-gray-300 hover:bg-gray-700 font-bold text-sm transition">ROV</button>
+                <button onclick="filterCategory('Roblox')" class="cat-btn px-5 py-2 rounded-xl bg-gray-800 text-gray-300 hover:bg-gray-700 font-bold text-sm transition">Roblox</button>
+            </div>
+
+            <!-- Product Grid -->
+            <div id="product-grid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+                <!-- Data injected via JS -->
+            </div>
+        </section>
+
+        <!-- TAB 2: TOPUP (BCEL ONE QR) -->
+        <section id="tab-topup" class="hidden space-y-6 max-w-2xl mx-auto">
+            <div class="bg-cardBorder bg-cardBg border border-gray-800 rounded-3xl p-6 sm:p-8 space-y-6">
+                <div class="text-center space-y-2">
+                    <h2 class="text-2xl font-bold text-white flex items-center justify-center gap-2">
+                        <i class="fa-solid fa-qrcode text-neonCyan"></i> เติມເງິນຜ່ານ BCEL One QR
+                    </h2>
+                    <p class="text-xs text-gray-400">ສະແກນ QR ລະຫັດດ້ານລຸ່ມນີ້ດ້ວຍແອັບທະນາຄານ BCEL One ຂອງທ່ານ</p>
+                </div>
+
+                <!-- QR Code Display Box -->
+                <div class="bg-gray-900 border border-gray-800 p-6 rounded-2xl flex flex-col items-center justify-center space-y-4">
+                    <div class="bg-white p-4 rounded-xl shadow-lg">
+                        <!-- ตัวอย่าง QR Code จำลองมาตรฐานลาว (หรือใส่ลิงก์รูป QR จริงของคุณตรงนี้) -->
+                        <img src="https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=BCEL_ONE_LAO_MOD_SHOP_PAYMENT" alt="BCEL QR" class="w-48 h-48">
+                    </div>
+                    <div class="text-center">
+                        <p class="text-sm font-semibold text-gray-300">ຊື່ບັນຊີ: <span class="text-neonCyan">LAO MOD SHOP OFFICIAL</span></p>
+                        <p class="text-xs text-gray-400">ເລກບັນຊີ: <span class="text-yellow-400 font-mono">01-23-45-678910-11</span></p>
+                    </div>
+                </div>
+
+                <!-- Topup Form -->
+                <form id="topup-form" onsubmit="submitTopup(event)" class="space-y-4">
                     <div>
-                        <label class="block text-xs text-slate-400 mb-1">ชื่อโปร / สินค้า (ຊື່ສິນຄ້າ)</label>
-                        <input type="text" id="prod-title" required class="w-full bg-slate-800 border border-slate-700 rounded-lg p-2.5 text-sm text-white focus:outline-none focus:border-purple-500" placeholder="เช่น โปรมองทะลุ Free Fire VIP">
+                        <label class="block text-sm font-medium text-gray-300 mb-1">ຈຳນວນເງິນທີ່ໂອນ (₭)</label>
+                        <input type="number" id="topup-amount" required placeholder="ຕົວຢ່າງ: 50000" class="w-full bg-gray-900 border border-gray-700 rounded-xl px-4 py-3 text-white focus:outline-none focus:border-neonCyan">
                     </div>
                     <div>
-                        <label class="block text-xs text-slate-400 mb-1">เลือกหมวดหมู่เกม</label>
-                        <select id="prod-category" class="w-full bg-slate-800 border border-slate-700 rounded-lg p-2.5 text-sm text-white focus:outline-none focus:border-purple-500">
-                            <option value="Free Fire">Free Fire</option>
-                            <option value="ROV">ROV</option>
-                            <option value="Roblox">Roblox</option>
-                            <option value="Mobile Legends">Mobile Legends</option>
-                        </select>
+                        <label class="block text-sm font-medium text-gray-300 mb-1">ອັບໂຫຼດຮູບໃບບິນ (Slip)</label>
+                        <input type="file" id="topup-slip" accept="image/*" required class="w-full bg-gray-900 border border-gray-700 rounded-xl px-4 py-3 text-gray-300 text-sm file:mr-4 file:py-2 file:px-4 file:rounded-lg file:border-0 file:text-sm file:font-semibold file:bg-neonCyan file:text-black hover:file:opacity-9icon">
                     </div>
-                    <div>
-                        <label class="block text-xs text-slate-400 mb-1">ราคา (สกุลเงิน ₭ กีบ)</label>
-                        <input type="number" id="prod-price" required value="5000" class="w-full bg-slate-800 border border-slate-700 rounded-lg p-2.5 text-sm text-white focus:outline-none focus:border-purple-500">
-                    </div>
-                    <div>
-                        <label class="block text-xs text-slate-400 mb-1">ลิงก์รูปภาพตัวอย่างโปร (URL)</label>
-                        <input type="text" id="prod-image" required class="w-full bg-slate-800 border border-slate-700 rounded-lg p-2.5 text-sm text-white focus:outline-none focus:border-purple-500" placeholder="https://example.com/image.jpg">
-                    </div>
-                    <div>
-                        <label class="block text-xs text-slate-400 mb-1">ลิงก์ดาวน์โหลดโปร / Script Link / Key</label>
-                        <input type="text" id="prod-link" required class="w-full bg-slate-800 border border-slate-700 rounded-lg p-2.5 text-sm text-white focus:outline-none focus:border-purple-500" placeholder="https://mega.nz/... หรือ Key Code">
-                    </div>
-                    <div>
-                        <label class="block text-xs text-slate-400 mb-1">คำอธิบายเพิ่มเติม</label>
-                        <input type="text" id="prod-desc" class="w-full bg-slate-800 border border-slate-700 rounded-lg p-2.5 text-sm text-white focus:outline-none focus:border-purple-500" placeholder="รายละเอียดคุณสมบัติโปร">
-                    </div>
-                    <div class="md:col-span-2 flex justify-end">
-                        <button type="submit" class="bg-purple-600 hover:bg-purple-700 text-white font-medium px-6 py-2.5 rounded-lg text-sm transition">
-                            <i class="fa-solid fa-save mr-1"></i> บันทึกสินค้าลงระบบ
-                        </button>
-                    </div>
+                    <button type="submit" class="w-full bg-gradient-to-r from-neonCyan to-neonPurple text-black font-bold py-3.5 rounded-xl hover:opacity-95 transition shadow-lg">
+                        <i class="fa-solid fa-paper-plane mr-2"></i> ແຈ້ງເຕີມເງິນ (รอแอดมินตรวจสอบ)
+                    </button>
                 </form>
             </div>
+        </section>
 
-            <!-- Table: Product Management -->
-            <div class="bg-slate-900 p-6 rounded-2xl border border-slate-800 overflow-x-auto">
-                <h3 class="text-lg font-bold mb-4 text-amber-400">รายการสินค้าในระบบทั้งหมด</h3>
-                <table class="w-full text-left text-sm text-slate-300">
-                    <thead class="bg-slate-800 text-xs text-slate-400 uppercase">
-                        <tr>
-                            <th class="p-3">รูปภาพ</th>
-                            <th class="p-3">ชื่อสินค้า</th>
-                            <th class="p-3">เกม</th>
-                            <th class="p-3">ราคา</th>
-                            <th class="p-3">ลิงก์โปร</th>
-                            <th class="p-3 text-center">จัดการ</th>
-                        </tr>
-                    </thead>
-                    <tbody id="admin-product-table">
-                        <!-- Admin products list rendered here -->
-                    </tbody>
-                </table>
+        <!-- TAB 3: MY INVENTORY (PURCHASED MODS) -->
+        <section id="tab-inventory" class="hidden space-y-6">
+            <div class="border-b border-gray-800 pb-4">
+                <h2 class="text-2xl font-bold text-white flex items-center gap-2">
+                    <i class="fa-solid fa-box-archive text-neonCyan"></i> ຄັງໂປຣເກມທີ່ທ່ານຊື້ແລ້ວ
+                </h2>
+                <p class="text-sm text-gray-400">ລາຍການໂປຣເກມ ແລະ Key ປົດລັອກທີ່ທ່ານເປັນເຈົ້າຂອງ</p>
             </div>
-        </div>
+
+            <div id="inventory-grid" class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <!-- Injected via JS -->
+            </div>
+        </section>
+
+        <!-- TAB 4: ADMIN PANEL -->
+        <section id="tab-admin" class="hidden space-y-8">
+            <div class="bg-cardBg border border-red-500/30 rounded-3xl p-6 sm:p-8 space-y-6">
+                <div class="flex items-center justify-between border-b border-gray-800 pb-4">
+                    <div>
+                        <h2 class="text-2xl font-bold text-neonPink flex items-center gap-2">
+                            <i class="fa-solid fa-user-shield"></i> ແຜງຄວບຄຸມແອດມິນ (Admin Dashboard)
+                        </h2>
+                        <p class="text-xs text-gray-400">จัดการรายการสินค้า, อนุมัติสลิปเติมเงิน และปรับแต่งระบบ</p>
+                    </div>
+                </div>
+
+                <!-- Admin Sub-tabs or Controls -->
+                <div class="space-y-8">
+                    <!-- Add / Edit Product Form -->
+                    <div class="bg-gray-900 border border-gray-800 p-6 rounded-2xl space-y-4">
+                        <h3 id="form-mode-title" class="text-lg font-bold text-white">➕ ເພີ່ມໂປຣເກມໃໝ່</h3>
+                        <form id="admin-product-form" onsubmit="saveProduct(event)" class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                            <input type="hidden" id="edit-product-id">
+                            <div>
+                                <label class="block text-xs text-gray-400 mb-1">ຊື່ໂປຣເກມ</label>
+                                <input type="text" id="admin-title" required class="w-full bg-gray-800 border border-gray-700 rounded-xl px-4 py-2.5 text-white text-sm">
+                            </div>
+                            <div>
+                                <label class="block text-xs text-gray-400 mb-1">ໝວດໝູ່</label>
+                                <select id="admin-category" class="w-full bg-gray-800 border border-gray-700 rounded-xl px-4 py-2.5 text-white text-sm">
+                                    <option value="Free Fire">Free Fire</option>
+                                    <option value="ROV">ROV</option>
+                                    <option value="Roblox">Roblox</option>
+                                </select>
+                            </div>
+                            <div>
+                                <label class="block text-xs text-gray-400 mb-1">ລາຄາ (₭)</label>
+                                <input type="number" id="admin-price" required class="w-full bg-gray-800 border border-gray-700 rounded-xl px-4 py-2.5 text-white text-sm">
+                            </div>
+                            <div>
+                                <label class="block text-xs text-gray-400 mb-1">ລິ້ງຮູບພາບ (Image URL)</label>
+                                <input type="url" id="admin-image" required class="w-full bg-gray-800 border border-gray-700 rounded-xl px-4 py-2.5 text-white text-sm">
+                            </div>
+                            <div class="sm:col-span-2">
+                                <label class="block text-xs text-gray-400 mb-1">ໂຄດໂປຣ / Key / Link ดาวน์โหลด</label>
+                                <textarea id="admin-script" rows="3" required placeholder="ใส่โค้ดสคริปต์หรือลิงก์ดาวน์โหลดที่ลูกค้าจะได้รับหลังซื้อ..." class="w-full bg-gray-800 border border-gray-700 rounded-xl px-4 py-2.5 text-white text-sm font-mono"></textarea>
+                            </div>
+                            <div class="sm:col-span-2 flex justify-end space-x-3">
+                                <button type="button" onclick="resetAdminForm()" class="px-4 py-2 bg-gray-700 hover:bg-gray-600 rounded-xl text-sm font-bold text-gray-300">ຍົກເລີກ</button>
+                                <button type="submit" class="px-6 py-2 bg-neonPink hover:bg-pink-600 rounded-xl text-sm font-bold text-white shadow-lg">ບັນທຶກສິນຄ້າ</button>
+                            </div>
+                        </form>
+                    </div>
+
+                    <!-- Pending Topup Slips List -->
+                    <div class="space-y-4">
+                        <h3 class="text-lg font-bold text-white">📋 รายการแจ้งเติมเงินรออนุมัติ</h3>
+                        <div id="admin-topup-list" class="space-y-3">
+                            <!-- Injected via JS -->
+                        </div>
+                    </div>
+
+                    <!-- Existing Products Management List -->
+                    <div class="space-y-4">
+                        <h3 class="text-lg font-bold text-white">🛠️ จัดการสินค้าที่มีอยู่</h3>
+                        <div id="admin-product-list" class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                            <!-- Injected via JS -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
 
     </main>
 
-    <!-- Footer -->
-    <footer class="bg-slate-900 border-t border-slate-800 py-4 text-center text-xs text-slate-500">
-        &copy; 2026 Lao Gaming Storefront System. All rights reserved.
+    <!-- LOGIN MODAL -->
+    <div id="loginModal" class="fixed inset-0 z-50 hidden items-center justify-center bg-black/80 backdrop-blur-sm p-4">
+        <div class="bg-cardBg border border-gray-800 w-full max-w-md rounded-3xl p-6 sm:p-8 space-y-6 relative glow-cyan">
+            <button onclick="closeModal('loginModal')" class="absolute top-4 right-4 text-gray-400 hover:text-white">
+                <i class="fa-solid fa-xmark text-xl"></i>
+            </button>
+            <div class="text-center space-y-2">
+                <h3 class="text-2xl font-bold text-white">ເຂົ້າສູ່ລະບົບຮ້ານຄ້າ</h3>
+                <p class="text-xs text-gray-400">ເລືອກຊ່ອງທາງທີ່ທ່ານສະດວກເພື່ອເຂົ້າໃຊ້ງານ</p>
+            </div>
+
+            <!-- Social Logins -->
+            <div class="space-y-3">
+                <button onclick="simulateLogin('Google')" class="w-full flex items-center justify-center gap-3 bg-white text-gray-900 font-bold py-3 rounded-xl hover:bg-gray-100 transition shadow">
+                    <i class="fa-brands fa-google text-red-500 text-lg"></i> ເຂົ້າສູ່ລະບົບດ້ວຍ Google
+                </button>
+                <button onclick="simulateLogin('Facebook')" class="w-full flex items-center justify-center gap-3 bg-blue-600 text-white font-bold py-3 rounded-xl hover:bg-blue-700 transition shadow">
+                    <i class="fa-brands fa-facebook text-lg"></i> ເຂົ້າສູ່ລະບົບດ້ວຍ Facebook
+                </button>
+            </div>
+
+            <div class="flex items-center my-4">
+                <div class="flex-grow border-t border-gray-700"></div>
+                <span class="px-3 text-xs text-gray-500 uppercase">ຫຼື ໃຊ້ເບີໂທລະສັບ</span>
+                <div class="flex-grow border-t border-gray-700"></div>
+            </div>
+
+            <!-- Phone Login Form -->
+            <form onsubmit="handlePhoneLogin(event)" class="space-y-4">
+                <div>
+                    <label class="block text-xs text-gray-400 mb-1">ເບີໂທລະສັບ (ລາວ)</label>
+                    <input type="text" id="login-phone" required placeholder="20 xxxxxxxx" class="w-full bg-gray-900 border border-gray-700 rounded-xl px-4 py-2.5 text-white text-sm">
+                </div>
+                <div>
+                    <label class="block text-xs text-gray-400 mb-1">ຊື່ຜູ້ໃຊ້ (Username)</label>
+                    <input type="text" id="login-username" required placeholder="ຊື່ຂອງທ່ານ" class="w-full bg-gray-900 border border-gray-700 rounded-xl px-4 py-2.5 text-white text-sm">
+                </div>
+                <button type="submit" class="w-full bg-gradient-to-r from-neonCyan to-neonPurple text-black font-bold py-3 rounded-xl hover:opacity-95 transition">
+                    ຢືນຢັນເຂົ້າສູ່ລະບົບ / ສ້າງບັນຊີ
+                </button>
+            </form>
+        </div>
+    </div>
+
+    <!-- SCRIPT CODE VIEW MODAL -->
+    <div id="scriptModal" class="fixed inset-0 z-50 hidden items-center justify-center bg-black/80 backdrop-blur-sm p-4">
+        <div class="bg-cardBg border border-gray-800 w-full max-w-lg rounded-3xl p-6 sm:p-8 space-y-6 relative glow-purple">
+            <button onclick="closeModal('scriptModal')" class="absolute top-4 right-4 text-gray-400 hover:text-white">
+                <i class="fa-solid fa-xmark text-xl"></i>
+            </button>
+            <div class="space-y-2">
+                <h3 class="text-xl font-bold text-white flex items-center gap-2">
+                    <i class="fa-solid fa-code text-neonCyan"></i> ໂຄດໂປຣ / Key ປົດລັອກຂອງທ່ານ
+                </h3>
+                <p class="text-xs text-gray-400">ກັອບປີ້ລະຫັດນີ້ໄປໃຊ້ງານໃນເກມໄດ້ເລີຍ</p>
+            </div>
+            <div class="bg-gray-900 border border-gray-700 p-4 rounded-xl font-mono text-xs text-neonCyan overflow-x-auto max-h-40" id="modal-script-content">
+                <!-- Script content -->
+            </div>
+            <button onclick="copyModalScript()" class="w-full bg-neonCyan text-black font-bold py-3 rounded-xl hover:opacity-95 transition">
+                <i class="fa-solid fa-copy mr-2"></i> ກັອບປີ້ໂຄດ
+            </button>
+        </div>
+    </div>
+
+    <!-- FOOTER -->
+    <footer class="bg-cardBg border-t border-gray-800 mt-20 py-8">
+        <div class="max-w-7xl mx-auto px-4 text-center space-y-4">
+            <p class="text-sm text-gray-400">© 2026 LAO MOD STORE. ສະຫງວນລິຂະສິດທຸກຢ່າງ.</p>
+            <p class="text-xs text-gray-500">ຮ້ານຄ້າໂປຣເກມອອນລາຍທີ່ດີທີ່ສຸດໃນ ສປປ ລາວ 🇨🇱</p>
+        </div>
     </footer>
 
-    <!-- MODAL: LOGIN -->
-    <div id="login-modal" class="fixed inset-0 bg-black/70 hidden items-center justify-center p-4 z-50">
-        <div class="bg-slate-900 border border-slate-800 rounded-2xl max-w-sm w-full p-6 text-center relative">
-            <button onclick="closeModal('login-modal')" class="absolute top-4 right-4 text-slate-400 hover:text-white">
-                <i class="fa-solid fa-times"></i>
-            </button>
-            <h3 class="text-xl font-bold mb-4">ເຂົ້າສູ່ລະບົບ (เข้าสู่ระบบ)</h3>
-            <p class="text-xs text-slate-400 mb-6">เลือกช่องทางการเข้าสู่ระบบ</p>
-            
-            <div class="space-y-3">
-                <button onclick="loginWith('Google')" class="w-full bg-white text-slate-900 font-medium py-2.5 rounded-xl flex items-center justify-center space-x-2 text-sm hover:bg-slate-100">
-                    <i class="fa-brands fa-google text-red-500"></i>
-                    <span>เข้าสู่ระบบด้วย Google</span>
-                </button>
-                <button onclick="loginWith('Facebook')" class="w-full bg-blue-600 text-white font-medium py-2.5 rounded-xl flex items-center justify-center space-x-2 text-sm hover:bg-blue-700">
-                    <i class="fa-brands fa-facebook"></i>
-                    <span>เข้าสู่ระบบด้วย Facebook</span>
-                </button>
-                <button onclick="loginWith('Phone')" class="w-full bg-emerald-600 text-white font-medium py-2.5 rounded-xl flex items-center justify-center space-x-2 text-sm hover:bg-emerald-700">
-                    <i class="fa-solid fa-phone"></i>
-                    <span>เข้าสู่ระบบด้วย เบอร์โทรศัพท์</span>
-                </button>
-            </div>
-        </div>
-    </div>
-
-    <!-- MODAL: PURCHASE / PAYMENT -->
-    <div id="buy-modal" class="fixed inset-0 bg-black/70 hidden items-center justify-center p-4 z-50">
-        <div class="bg-slate-900 border border-slate-800 rounded-2xl max-w-md w-full p-6 relative">
-            <button onclick="closeModal('buy-modal')" class="absolute top-4 right-4 text-slate-400 hover:text-white">
-                <i class="fa-solid fa-times"></i>
-            </button>
-            <h3 class="text-lg font-bold mb-2 text-purple-400" id="modal-buy-title">สั่งซื้อสินค้า</h3>
-            <p class="text-sm text-slate-300 mb-4">ราคา: <span id="modal-buy-price" class="text-amber-400 font-bold"></span> ₭</p>
-
-            <div class="bg-slate-800 p-4 rounded-xl text-center mb-4 border border-slate-700">
-                <p class="text-xs text-slate-400 mb-2">สแกน QR Code เพื่อชำระเงิน (BCEL One)</p>
-                <img id="qr-display" src="https://via.placeholder.com/200x200?text=BCEL+One+QR" alt="QR Code" class="w-48 h-48 mx-auto rounded-lg mb-2 object-cover">
-                <p class="text-xs text-amber-300 font-mono" id="bank-acc-info">ธนาคาร BCEL One | บัญชี: 123-456-789</p>
-            </div>
-
-            <div class="space-y-3">
-                <label class="block text-xs text-slate-400">แนบสลิปการโอนเงิน (Slip)</label>
-                <input type="file" id="slip-file" accept="image/*" class="w-full text-xs text-slate-400 file:mr-4 file:py-2 file:px-4 file:rounded-lg file:border-0 file:text-xs file:font-semibold file:bg-purple-600 file:text-white hover:file:bg-purple-700">
-                <button onclick="confirmPayment()" class="w-full bg-emerald-600 hover:bg-emerald-700 text-white font-medium py-2.5 rounded-xl text-sm transition mt-2">
-                    ยืนยันการชำระเงิน
-                </button>
-            </div>
-        </div>
-    </div>
-
-    <!-- MODAL: ADMIN CONFIG -->
-    <div id="config-modal" class="fixed inset-0 bg-black/70 hidden items-center justify-center p-4 z-50">
-        <div class="bg-slate-900 border border-slate-800 rounded-2xl max-w-sm w-full p-6 relative">
-            <button onclick="closeModal('config-modal')" class="absolute top-4 right-4 text-slate-400 hover:text-white">
-                <i class="fa-solid fa-times"></i>
-            </button>
-            <h3 class="text-lg font-bold mb-4 text-amber-400">ตั้งค่าระบบ Admin</h3>
-            <div class="space-y-4">
-                <div>
-                    <label class="block text-xs text-slate-400 mb-1">URL รูปภาพ QR Code บัญชีโอนเงิน</label>
-                    <input type="text" id="cfg-qr" class="w-full bg-slate-800 border border-slate-700 rounded-lg p-2 text-sm text-white">
-                </div>
-                <div>
-                    <label class="block text-xs text-slate-400 mb-1">เลขบัญชี / ชื่อบัญชี</label>
-                    <input type="text" id="cfg-bank" class="w-full bg-slate-800 border border-slate-700 rounded-lg p-2 text-sm text-white">
-                </div>
-                <div>
-                    <label class="block text-xs text-slate-400 mb-1">เปลี่ยนรหัสผ่าน Admin PIN</label>
-                    <input type="text" id="cfg-pin" class="w-full bg-slate-800 border border-slate-700 rounded-lg p-2 text-sm text-white">
-                </div>
-                <button onclick="saveAdminConfig()" class="w-full bg-amber-600 hover:bg-amber-700 text-white font-medium py-2 rounded-xl text-sm">
-                    บันทึกการตั้งค่า
-                </button>
-            </div>
-        </div>
-    </div>
-
-    <!-- JavaScript Core Logic -->
+    <!-- FIREBASE & APP LOGIC -->
     <script>
-        let state = {
-            isAdmin: false,
-            adminPin: "1234",
-            qrUrl: "https://via.placeholder.com/200x200?text=BCEL+One+QR",
-            bankInfo: "BCEL One: 010-12-00-12345678-001 (Lao Pro Game)",
-            currentUser: null,
-            selectedProduct: null,
-            products: JSON.parse(localStorage.getItem('lao_gaming_products')) || [
-                {
-                    id: 1,
-                    title: "ໂໂປຣ Free Fire VIP (มองทะลุ/ล็อคหัว)",
-                    category: "Free Fire",
-                    price: 5000,
-                    image: "https://via.placeholder.com/300x180/7e22ce/ffffff?text=Free+Fire+Pro",
-                    link: "https://example.com/download-ff-pro",
-                    desc: "ใช้งานง่าย ปลอดภัย ไม่โดนแบน อัปเดตล่าสุด"
-                },
-                {
-                    id: 2,
-                    title: "ໂປຣ ROV Map Hack (เปิดแมพ 100%)",
-                    category: "ROV",
-                    price: 10000,
-                    image: "https://via.placeholder.com/300x180/1e40af/ffffff?text=ROV+Map+Hack",
-                    link: "https://example.com/download-rov-pro",
-                    desc: "เห็นศัตรูทั้งแมพ สกิลแม่นยำ"
+        // ⚙️ Firebase Config (ตัวอย่างใช้งานร่วมกันได้ทันที หรือเปลี่ยนเป็น Config ของคุณเอง)
+        const firebaseConfig = {
+            databaseURL: "https://lao-mod-store-default-rtdb.firebaseio.com/"
+        };
+        firebase.initializeApp(firebaseConfig);
+        const db = firebase.database();
+
+        // Ứng dụng State
+        let currentUser = JSON.parse(localStorage.getItem('lao_mod_user')) || null;
+        let currentCategory = 'all';
+        let products = [];
+        let topups = [];
+        let inventory = [];
+
+        // เริ่มต้นทำงานเมื่อโหลดหน้าเว็บ
+        window.addEventListener('DOMContentLoaded', () => {
+            initFirebaseSync();
+            updateAuthUI();
+        });
+
+        // 🔄 ซิงค์ข้อมูล Realtime จาก Firebase
+        function initFirebaseSync() {
+            // โหลดสินค้า
+            db.ref('products').on('value', (snapshot) => {
+                const data = snapshot.val();
+                if (data) {
+                    products = Object.keys(data).map(key => ({ id: key, ...data[key] }));
+                } else {
+                    // ข้อมูลตั้งต้นถ้ายังไม่มีใน DB
+                    products = [
+                        { id: 'p1', title: 'Free Fire Aimbot + ESP V1', category: 'Free Fire', price: 50000, image: 'https://images.unsplash.com/photo-1542751371-adc38448a05e?w=500', script: 'FF_MOD_XYZ_998877_PRO_VERSION' },
+                        { id: 'p2', title: 'ROV Maphack Pro 2026', category: 'ROV', price: 80000, image: 'https://images.unsplash.com/photo-1511512578047-dfb367046420?w=500', script: 'ROV_MAP_UNLOCK_SECURE_KEY_123' },
+                        { id: 'p3', title: 'Roblox Executor Script Hub', category: 'Roblox', price: 30000, image: 'https://images.unsplash.com/photo-1550745165-9bc0b252726f?w=500', script: 'ROBLOX_HUB_SCRIPT_EXEC_999' }
+                    ];
+                    syncProductsToDB();
                 }
-            ]
-        };
+                renderProducts();
+                renderAdminProducts();
+            });
 
-        window.onload = () => {
-            renderProducts(state.products);
-            renderAdminProducts();
-            loadConfig();
-        };
+            // โหลดรายการแจ้งเติมเงิน
+            db.ref('topups').on('value', (snapshot) => {
+                const data = snapshot.val();
+                if (data) {
+                    topups = Object.keys(data).map(key => ({ id: key, ...data[key] }));
+                } else {
+                    topups = [];
+                }
+                renderAdminTopups();
+            });
 
-        function loadConfig() {
-            const savedPin = localStorage.getItem('lao_admin_pin');
-            const savedQr = localStorage.getItem('lao_admin_qr');
-            const savedBank = localStorage.getItem('lao_admin_bank');
-
-            if (savedPin) state.adminPin = savedPin;
-            if (savedQr) state.qrUrl = savedQr;
-            if (savedBank) state.bankInfo = savedBank;
-
-            document.getElementById('qr-display').src = state.qrUrl;
-            document.getElementById('bank-acc-info').innerText = state.bankInfo;
+            // อัปเดตข้อมูลผู้ใช้ถ้า Login อยู่
+            if (currentUser) {
+                db.ref('users/' + currentUser.phone).on('value', (snapshot) => {
+                    const userData = snapshot.val();
+                    if (userData) {
+                        currentUser = userData;
+                        localStorage.setItem('lao_mod_user', JSON.stringify(currentUser));
+                        updateAuthUI();
+                        renderInventory();
+                    }
+                });
+            }
         }
 
-        function renderProducts(list) {
+        function syncProductsToDB() {
+            const obj = {};
+            products.forEach(p => {
+                const id = p.id;
+                delete p.id;
+                obj[id] = p;
+            });
+            db.ref('products').set(obj);
+        }
+
+        // TAB SWITCHING
+        function switchTab(tabName) {
+            ['shop', 'topup', 'inventory', 'admin'].forEach(t => {
+                document.getElementById(`tab-${t}`).classList.add('hidden');
+                if(document.getElementById(`nav-${t}`)) {
+                    document.getElementById(`nav-${t}`).classList.remove('text-neonCyan');
+                    document.getElementById(`nav-${t}`).classList.add('text-gray-300');
+                }
+            });
+
+            document.getElementById(`tab-${tabName}`).classList.remove('hidden');
+            if(document.getElementById(`nav-${tabName}`)) {
+                document.getElementById(`nav-${tabName}`).classList.add('text-neonCyan');
+                document.getElementById(`nav-${tabName}`).classList.remove('text-gray-300');
+            }
+        }
+
+        // MODAL HELPERS
+        function openModal(modalId) {
+            document.getElementById(modalId).classList.remove('hidden');
+            document.getElementById(modalId).classList.add('flex');
+        }
+        function closeModal(modalId) {
+            document.getElementById(modalId).classList.add('hidden');
+            document.getElementById(modalId).classList.remove('flex');
+        }
+
+        // AUTH SYSTEM
+        function simulateLogin(provider) {
+            const phone = "20" + Math.floor(10000000 + Math.random() * 90000000);
+            const username = provider + "_" + Math.floor(Math.random() * 1000);
+            completeLogin(phone, username);
+        }
+
+        function handlePhoneLogin(e) {
+            e.preventDefault();
+            const phone = document.getElementById('login-phone').value.trim();
+            const username = document.getElementById('login-username').value.trim();
+            completeLogin(phone, username);
+        }
+
+        function completeLogin(phone, username) {
+            const userRef = db.ref('users/' + phone);
+            userRef.once('value', snapshot => {
+                if (!snapshot.exists()) {
+                    currentUser = { phone, username, balance: 0, inventory: [], role: phone === '2022222222' ? 'admin' : 'user' };
+                    userRef.set(currentUser);
+                } else {
+                    currentUser = snapshot.val();
+                }
+                localStorage.setItem('lao_mod_user', JSON.stringify(currentUser));
+                closeModal('loginModal');
+                updateAuthUI();
+                alert('ເຂົ້າສູ່ລະບົບสำเร็จ!');
+            });
+        }
+
+        function logout() {
+            localStorage.removeItem('lao_mod_user');
+            currentUser = null;
+            updateAuthUI();
+            switchTab('shop');
+            alert('ອອກຈາກລະບົບແລ້ວ');
+        }
+
+        function updateAuthUI() {
+            if (currentUser) {
+                document.getElementById('auth-action-area').classList.add('hidden');
+                document.getElementById('user-profile-area').classList.remove('hidden');
+                document.getElementById('user-profile-area').classList.add('flex');
+                document.getElementById('user-wallet-box').classList.remove('hidden');
+                document.getElementById('user-wallet-box').classList.add('flex');
+                document.getElementById('username-display').innerText = currentUser.username;
+                document.getElementById('user-balance').innerText = currentUser.balance.toLocaleString();
+
+                // Check Admin
+                if (currentUser.role === 'admin' || currentUser.phone === '2022222222') {
+                    document.getElementById('nav-admin').classList.remove('hidden');
+                } else {
+                    document.getElementById('nav-admin').classList.add('hidden');
+                }
+            } else {
+                document.getElementById('auth-action-area').classList.remove('hidden');
+                document.getElementById('user-profile-area').classList.add('hidden');
+                document.getElementById('user-wallet-box').classList.add('hidden');
+                document.getElementById('nav-admin').classList.add('hidden');
+            }
+        }
+
+        // STORE & PRODUCTS RENDERING
+        function filterCategory(cat) {
+            currentCategory = cat;
+            document.querySelectorAll('.cat-btn').forEach(btn => {
+                btn.classList.remove('bg-neonCyan', 'text-black');
+                btn.classList.add('bg-gray-800', 'text-gray-300');
+                if(btn.innerText.includes(cat) || (cat === 'all' && btn.innerText === 'ທັງໝົດ')) {
+                    btn.classList.add('bg-neonCyan', 'text-black');
+                    btn.classList.remove('bg-gray-800', 'text-gray-300');
+                }
+            });
+            renderProducts();
+        }
+
+        function renderProducts() {
             const grid = document.getElementById('product-grid');
             grid.innerHTML = '';
+            
+            const filtered = currentCategory === 'all' ? products : products.filter(p => p.category === currentCategory);
 
-            if (list.length === 0) {
-                grid.innerHTML = `<div class="col-span-full text-center py-10 text-slate-500">ບໍ່ພົບສິນຄ້າ (ไม่พบสินค้าในหมวดหมู่นี้)</div>`;
+            if (filtered.length === 0) {
+                grid.innerHTML = `<div class="col-span-full text-center py-10 text-gray-500">ບໍ່ມີສິນຄ້າໃນໝວດໝູ່ນີ້</div>`;
                 return;
             }
 
-            list.forEach(p => {
+            filtered.forEach(p => {
                 grid.innerHTML += `
-                    <div class="bg-slate-900 border border-slate-800 rounded-2xl overflow-hidden hover:border-purple-500/50 transition flex flex-col justify-between">
+                    <div class="bg-cardBg border border-gray-800 rounded-3xl overflow-hidden shadow-lg hover:border-neonCyan/50 transition group flex flex-col justify-between">
                         <div>
-                            <img src="${p.image}" alt="${p.title}" class="w-full h-40 object-cover">
-                            <div class="p-4">
-                                <span class="text-xs bg-purple-900/60 text-purple-300 px-2 py-0.5 rounded-full border border-purple-500/30">${p.category}</span>
-                                <h4 class="font-bold text-base mt-2 text-white line-clamp-1">${p.title}</h4>
-                                <p class="text-xs text-slate-400 mt-1 line-clamp-2">${p.desc || 'ไม่มีคำอธิบาย'}</p>
+                            <div class="relative h-48 overflow-hidden bg-gray-900">
+                                <img src="${p.image}" alt="${p.title}" class="w-full h-full object-cover group-hover:scale-105 transition duration-300">
+                                <span class="absolute top-3 left-3 bg-black/70 backdrop-blur-md text-neonCyan text-xs px-3 py-1 rounded-full border border-gray-700 font-semibold">${p.category}</span>
+                            </div>
+                            <div class="p-6 space-y-2">
+                                <h3 class="font-bold text-lg text-white group-hover:text-neonCyan transition">${p.title}</h3>
+                                <div class="text-yellow-400 font-extrabold text-xl">${p.price.toLocaleString()} ₭</div>
                             </div>
                         </div>
-                        <div class="p-4 pt-0 flex justify-between items-center">
-                            <div>
-                                <span class="text-xs text-slate-500 block">ราคา</span>
-                                <span class="text-lg font-bold text-amber-400">${p.price.toLocaleString()} ₭</span>
-                            </div>
-                            <button onclick="handleBuyClick(${p.id})" class="bg-purple-600 hover:bg-purple-700 text-white text-xs font-semibold px-4 py-2 rounded-xl transition">
-                                ສັ່ງຊື້ (สั่งซื้อ)
+                        <div class="p-6 pt-0">
+                            <button onclick="buyProduct('${p.id}')" class="w-full bg-gradient-to-r from-neonCyan to-neonPurple text-black font-bold py-3 rounded-xl hover:opacity-95 transition shadow-md">
+                                <i class="fa-solid fa-cart-shopping mr-2"></i> ຊື້ໂປຣເກມນີ້
                             </button>
                         </div>
                     </div>
@@ -330,146 +549,234 @@
             });
         }
 
-        function renderAdminProducts() {
-            const table = document.getElementById('admin-product-table');
-            table.innerHTML = '';
+        // PURCHASE LOGIC
+        function buyProduct(productId) {
+            if (!currentUser) {
+                openModal('loginModal');
+                alert('ກະລຸນາເຂົ້າສູ່ລະບົບກ່ອນຊື້ສິນຄ້າ!');
+                return;
+            }
 
-            state.products.forEach(p => {
-                table.innerHTML += `
-                    <tr class="border-b border-slate-800 hover:bg-slate-800/40">
-                        <td class="p-3"><img src="${p.image}" class="w-12 h-12 object-cover rounded-lg"></td>
-                        <td class="p-3 font-semibold text-white">${p.title}</td>
-                        <td class="p-3"><span class="text-xs bg-slate-800 px-2 py-1 rounded">${p.category}</span></td>
-                        <td class="p-3 text-amber-400 font-bold">${p.price.toLocaleString()} ₭</td>
-                        <td class="p-3 text-xs text-slate-400 truncate max-w-[150px]"><a href="${p.link}" target="_blank" class="underline text-purple-400">${p.link}</a></td>
-                        <td class="p-3 text-center">
-                            <button onclick="deleteProduct(${p.id})" class="bg-red-600/20 hover:bg-red-600 text-red-400 hover:text-white px-2.5 py-1 rounded-lg text-xs transition">
-                                <i class="fa-solid fa-trash"></i> ลบ
-                            </button>
-                        </td>
-                    </tr>
+            const product = products.find(p => p.id === productId);
+            if (!product) return;
+
+            if (currentUser.balance < product.price) {
+                alert('ຍອດເງິນໃນກະເປົ໋າຂອງທ່ານບໍ່ພຽງພໍ! ກະລຸນາເຕີມເງິນ.');
+                switchTab('topup');
+                return;
+            }
+
+            if (confirm(`ທ່ານຕ້ອງການຊື້ "${product.title}" ໃນລາຄາ ${product.price.toLocaleString()} ₭ ແມ່ນ ຫລື ບໍ່?`)) {
+                currentUser.balance -= product.price;
+                if (!currentUser.inventory) currentUser.inventory = [];
+                currentUser.inventory.push({
+                    title: product.title,
+                    script: product.script,
+                    date: new Date().toLocaleDateString()
+                });
+
+                // Update Database
+                db.ref('users/' + currentUser.phone).set(currentUser);
+                localStorage.setItem('lao_mod_user', JSON.stringify(currentUser));
+                updateAuthUI();
+                renderInventory();
+                alert('ຊື້ສິນຄ້າสำเร็จ! ໄປທີ່ "ຄັງໂປຣຂອງຂ້ອຍ" ເພື່ອກັອບປີ້ໂຄດ.');
+                switchTab('inventory');
+            }
+        }
+
+        function renderInventory() {
+            const grid = document.getElementById('inventory-grid');
+            grid.innerHTML = '';
+
+            if (!currentUser || !currentUser.inventory || currentUser.inventory.length === 0) {
+                grid.innerHTML = `<div class="col-span-full text-center py-10 text-gray-500">ທ່ານຍังບໍ່ມີໂປຣເກມໃນຄັງสินค้า</div>`;
+                return;
+            }
+
+            currentUser.inventory.forEach(item => {
+                grid.innerHTML += `
+                    <div class="bg-cardBg border border-gray-800 p-6 rounded-3xl space-y-4 shadow-lg">
+                        <div class="flex justify-between items-start">
+                            <div>
+                                <h3 class="font-bold text-lg text-white">${item.title}</h3>
+                                <p class="text-xs text-gray-500">ວັນທີຊື້: ${item.date}</p>
+                            </div>
+                            <span class="bg-green-500/10 text-green-400 text-xs px-3 py-1 rounded-full border border-green-500/20 font-semibold">ປົດລັອກແລ້ວ</span>
+                        </div>
+                        <button onclick="viewScript('${item.script}')" class="w-full bg-gray-900 border border-gray-700 hover:border-neonCyan text-neonCyan font-bold py-3 rounded-xl transition flex items-center justify-center gap-2">
+                            <i class="fa-solid fa-key"></i> ເບິ່ງໂຄດ / Key ໂປຣເກມ
+                        </button>
+                    </div>
                 `;
             });
         }
 
-        function filterGame(category) {
-            if (category === 'all') {
-                renderProducts(state.products);
-            } else {
-                const filtered = state.products.filter(p => p.category === category);
-                renderProducts(filtered);
-            }
+        function viewScript(scriptText) {
+            document.getElementById('modal-script-content').innerText = scriptText;
+            openModal('scriptModal');
         }
 
-        function toggleAdminMode() {
-            if (!state.isAdmin) {
-                const inputPin = prompt("กรุณากรอกรหัสผ่าน Admin (PIN ชั่วคราวคือ: 1234):");
-                if (inputPin === state.adminPin) {
-                    state.isAdmin = true;
-                    document.getElementById('user-view').classList.add('hidden');
-                    document.getElementById('admin-view').classList.remove('hidden');
-                    document.getElementById('admin-btn-text').innerText = "โหมดผู้ใช้";
-                } else if (inputPin !== null) {
-                    alert("รหัสผ่านไม่ถูกต้อง!");
-                }
-            } else {
-                state.isAdmin = false;
-                document.getElementById('user-view').classList.remove('hidden');
-                document.getElementById('admin-view').classList.add('hidden');
-                document.getElementById('admin-btn-text').innerText = "โหมด Admin";
-            }
+        function copyModalScript() {
+            const text = document.getElementById('modal-script-content').innerText;
+            navigator.clipboard.writeText(text);
+            alert('ກັອບປີ້ໂຄດລົງ Clipboard ແລ້ວ!');
         }
 
-        function handleAddProduct(e) {
+        // TOPUP SUBMISSION
+        function submitTopup(e) {
             e.preventDefault();
-            const newProd = {
-                id: Date.now(),
-                title: document.getElementById('prod-title').value,
-                category: document.getElementById('prod-category').value,
-                price: Number(document.getElementById('prod-price').value),
-                image: document.getElementById('prod-image').value,
-                link: document.getElementById('prod-link').value,
-                desc: document.getElementById('prod-desc').value
+            if (!currentUser) {
+                openModal('loginModal');
+                alert('ກະລຸນາເຂົ້າສູ່ລະບົບກ่อนແຈ້ງເຕີມເງິນ!');
+                return;
+            }
+
+            const amount = parseFloat(document.getElementById('topup-amount').value);
+            const slipInput = document.getElementById('topup-slip');
+
+            if (!slipInput.files[0]) {
+                alert('ກະລຸນາອັບໂຫຼດຮູບໃບບິນ!');
+                return;
+            }
+
+            const reader = new FileReader();
+            reader.readAsDataURL(slipInput.files[0]);
+            reader.onload = function () {
+                const slipDataUrl = reader.result;
+                const topupId = 'topup_' + Date.now();
+
+                db.ref('topups/' + topupId).set({
+                    id: topupId,
+                    phone: currentUser.phone,
+                    username: currentUser.username,
+                    amount: amount,
+                    slip: slipDataUrl,
+                    status: 'pending',
+                    date: new Date().toLocaleString()
+                });
+
+                alert('ສົ່ງແຈ້ງເຕີມເງິນสำเร็จ! ກະລຸນາລໍຖ້າແອດມິນກວດສອບ 1-3 ນาที');
+                document.getElementById('topup-form').reset();
+                switchTab('shop');
             };
+        }
 
-            state.products.push(newProd);
-            localStorage.setItem('lao_gaming_products', JSON.stringify(state.products));
+        // ADMIN FUNCTIONS
+        function saveProduct(e) {
+            e.preventDefault();
+            const editId = document.getElementById('edit-product-id').value;
+            const title = document.getElementById('admin-title').value;
+            const category = document.getElementById('admin-category').value;
+            const price = parseFloat(document.getElementById('admin-price').value);
+            const image = document.getElementById('admin-image').value;
+            const script = document.getElementById('admin-script').value;
 
-            renderProducts(state.products);
-            renderAdminProducts();
-            document.getElementById('add-product-form').reset();
-            alert("เพิ่มสินค้าเรียบร้อยแล้ว!");
+            if (editId) {
+                // อัปเดตสินค้าเดิม
+                db.ref('products/' + editId).set({ title, category, price, image, script });
+                alert('ອັບເດດສິນຄ້າสำเร็จ!');
+            } else {
+                // เพิ่มสินค้าใหม่
+                const newId = 'p_' + Date.now();
+                db.ref('products/' + newId).set({ title, category, price, image, script });
+                alert('ເພີ່ມສິນຄ້າใหม่สำเร็จ!');
+            }
+
+            resetAdminForm();
+        }
+
+        function resetAdminForm() {
+            document.getElementById('admin-product-form').reset();
+            document.getElementById('edit-product-id').value = '';
+            document.getElementById('form-mode-title').innerText = '➕ ເພີ່ມໂປຣເກມໃໝ່';
+        }
+
+        function editProduct(id) {
+            const product = products.find(p => p.id === id);
+            if (!product) return;
+            document.getElementById('edit-product-id').value = product.id;
+            document.getElementById('admin-title').value = product.title;
+            document.getElementById('admin-category').value = product.category;
+            document.getElementById('admin-price').value = product.price;
+            document.getElementById('admin-image').value = product.image;
+            document.getElementById('admin-script').value = product.script;
+            document.getElementById('form-mode-title').innerText = '✏️ ແກ້ໄຂໂປຣເກມ: ' + product.title;
+            window.scrollTo({ top: 0, behavior: 'smooth' });
         }
 
         function deleteProduct(id) {
-            if (confirm("คุณแน่ใจหรือไม่ว่าต้องการลบสินค้านี้?")) {
-                state.products = state.products.filter(p => p.id !== id);
-                localStorage.setItem('lao_gaming_products', JSON.stringify(state.products));
-                renderProducts(state.products);
-                renderAdminProducts();
+            if (confirm('ທ່ານຕ້ອງການລົບສິນຄ້ານີ້ແທ້ ຫລື ບໍ່?')) {
+                db.ref('products/' + id).remove();
+                alert('ລົບສິນຄ້າสำเร็จ!');
             }
         }
 
-        function handleBuyClick(id) {
-            if (!state.currentUser) {
-                openLoginModal();
+        function renderAdminProducts() {
+            const list = document.getElementById('admin-product-list');
+            list.innerHTML = '';
+            products.forEach(p => {
+                list.innerHTML += `
+                    <div class="bg-gray-900 border border-gray-800 p-4 rounded-2xl flex items-center justify-between">
+                        <div class="flex items-center space-x-3">
+                            <img src="${p.image}" class="w-12 h-12 object-cover rounded-xl">
+                            <div>
+                                <h4 class="font-bold text-sm text-white">${p.title}</h4>
+                                <p class="text-xs text-yellow-400">${p.price.toLocaleString()} ₭</p>
+                            </div>
+                        </div>
+                        <div class="flex space-x-2">
+                            <button onclick="editProduct('${p.id}')" class="px-3 py-1.5 bg-blue-500/20 text-blue-400 rounded-lg text-xs font-bold hover:bg-blue-500 hover:text-white transition">ແກ້ໄຂ</button>
+                            <button onclick="deleteProduct('${p.id}')" class="px-3 py-1.5 bg-red-500/20 text-red-400 rounded-lg text-xs font-bold hover:bg-red-500 hover:text-white transition">ລົບ</button>
+                        </div>
+                    </div>
+                `;
+            });
+        }
+
+        function renderAdminTopups() {
+            const list = document.getElementById('admin-topup-list');
+            list.innerHTML = '';
+
+            const pending = topups.filter(t => t.status === 'pending');
+            if (pending.length === 0) {
+                list.innerHTML = `<div class="text-gray-500 text-sm">ບໍ່ມີລາຍການເຕີມເງິນທີ່ລໍຖ້າອະນຸມັດ</div>`;
                 return;
             }
-            state.selectedProduct = state.products.find(p => p.id === id);
-            document.getElementById('modal-buy-title').innerText = state.selectedProduct.title;
-            document.getElementById('modal-buy-price').innerText = state.selectedProduct.price.toLocaleString();
-            document.getElementById('buy-modal').classList.remove('hidden');
-            document.getElementById('buy-modal').classList.add('flex');
+
+            pending.forEach(t => {
+                list.innerHTML += `
+                    <div class="bg-gray-900 border border-gray-800 p-4 rounded-2xl flex flex-col sm:flex-row justify-between items-center gap-4">
+                        <div class="space-y-1 text-center sm:text-left">
+                            <p class="font-bold text-white text-sm">ຜູ້ໃຊ້: <span class="text-neonCyan">${t.username}</span> (${t.phone})</p>
+                            <p class="text-sm text-yellow-400 font-bold">ຈຳນວນ: ${t.amount.toLocaleString()} ₭</p>
+                            <p class="text-xs text-gray-500">${t.date}</p>
+                        </div>
+                        <div class="flex items-center space-x-3">
+                            <a href="${t.slip}" target="_blank" class="px-3 py-2 bg-gray-800 text-gray-300 rounded-xl text-xs hover:bg-gray-700 transition">ເບິ່ງໃບບິນ</a>
+                            <button onclick="approveTopup('${t.id}', '${t.phone}', ${t.amount})" class="px-4 py-2 bg-green-500 hover:bg-green-600 text-black font-bold rounded-xl text-xs transition">ອະນຸມັດເງິນເຂົ້າ</button>
+                        </div>
+                    </div>
+                `;
+            });
         }
 
-        function confirmPayment() {
-            const slip = document.getElementById('slip-file').files[0];
-            if (!slip) {
-                alert("กรุณาแนบสลิปการโอนเงิน!");
-                return;
+        function approveTopup(topupId, userPhone, amount) {
+            if (confirm(`ອະນຸມັດຍອດເງິນ ${amount.toLocaleString()} ₭ ໃຫ້ຜູ້ໃຊ້ ${userPhone}?`)) {
+                // อัปเดตสถานะ Topup เป็น approved
+                db.ref('topups/' + topupId + '/status').set('approved');
+
+                // เติมเงินเข้ากระเป๋า User
+                db.ref('users/' + userPhone).once('value', snapshot => {
+                    if (snapshot.exists()) {
+                        const uData = snapshot.val();
+                        uData.balance = (uData.balance || 0) + amount;
+                        db.ref('users/' + userPhone).set(uData);
+                    }
+                });
+
+                alert('ອະນຸມັດสำเร็จ! ยอดเงินเข้าบัญชีลูกค้าเรียบร้อย');
             }
-            alert(`ส่งข้อมูลการสั่งซื้อสำเร็จ!\nลิงก์ดาวน์โหลดสินค้าของคุณคือ:\n${state.selectedProduct.link}`);
-            closeModal('buy-modal');
-        }
-
-        function loginWith(provider) {
-            state.currentUser = { name: `User (${provider})`, balance: 0 };
-            document.getElementById('user-name').innerText = state.currentUser.name;
-            document.getElementById('user-info').classList.remove('hidden');
-            document.getElementById('login-btn').classList.add('hidden');
-            closeModal('login-modal');
-        }
-
-        function openConfigModal() {
-            document.getElementById('cfg-qr').value = state.qrUrl;
-            document.getElementById('cfg-bank').value = state.bankInfo;
-            document.getElementById('cfg-pin').value = state.adminPin;
-            document.getElementById('config-modal').classList.remove('hidden');
-            document.getElementById('config-modal').classList.add('flex');
-        }
-
-        function saveAdminConfig() {
-            state.qrUrl = document.getElementById('cfg-qr').value;
-            state.bankInfo = document.getElementById('cfg-bank').value;
-            state.adminPin = document.getElementById('cfg-pin').value;
-
-            localStorage.setItem('lao_admin_qr', state.qrUrl);
-            localStorage.setItem('lao_admin_bank', state.bankInfo);
-            localStorage.setItem('lao_admin_pin', state.adminPin);
-
-            loadConfig();
-            closeModal('config-modal');
-            alert("บันทึกการตั้งค่าเรียบร้อยแล้ว!");
-        }
-
-        function openLoginModal() {
-            document.getElementById('login-modal').classList.remove('hidden');
-            document.getElementById('login-modal').classList.add('flex');
-        }
-
-        function closeModal(id) {
-            document.getElementById(id).classList.add('hidden');
-            document.getElementById(id).classList.remove('flex');
         }
     </script>
 </body>
