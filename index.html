@@ -77,7 +77,7 @@
             <div class="flex items-center space-x-2 overflow-hidden whitespace-nowrap">
                 <span class="bg-red-600 text-white font-bold px-2 py-0.5 rounded text-[10px] animate-pulse">ແຈ້ງເຕືອນ</span>
                 <marquee class="text-gray-300 font-medium">
-                    🔥 ຍິນດີຕ້ອນຮັບເຂົ້າສູ່ LAO MOD STORE — ເວັບໄຊຂາຍໂປຣເກມອັນດັບ 1 ໃນລາວ | Free Fire VIP, ROV Map Hack, Roblox, PUBG Mobile, Garena Shells ປອດໄພ 100% | ເຕີມເງິນຜ່ານ BCEL One ອັດໂຕໂນມັດ 24/7!
+                    🔥 ຍິນດີຕ້ອນຮັບເຂົ້າສູ່ LAO MOD STORE — ເວັບໄຊຂາຍໂປຣເກມອັນດັບ 1 ໃນລາວ | Free Fire VIP, ROV Map Hack, Roblox, PUBG Mobile ປອດໄພ 100% | ເຕີມເງິນຜ່ານ BCEL One ອັດໂຕໂນມັດ 24/7!
                 </marquee>
             </div>
             <div class="hidden md:flex items-center space-x-4 text-gray-400 text-[11px]">
@@ -100,7 +100,7 @@
                 <div>
                     <div class="flex items-center gap-2">
                         <span class="text-2xl font-black bg-gradient-to-r from-purple-400 via-cyan-400 to-pink-500 bg-clip-text text-transparent">LAO MODS</span>
-                        <span class="bg-cyan-500/10 border border-cyan-500/30 text-cyan-300 text-[10px] font-bold px-2 py-0.5 rounded-full">v4.0 VIP</span>
+                        <span class="bg-cyan-500/10 border border-cyan-500/30 text-cyan-300 text-[10px] font-bold px-2 py-0.5 rounded-full">v4.2 VIP</span>
                     </div>
                     <p class="text-[10px] text-gray-400 font-medium">ຮ້ານຂາຍໂປຣເກມມືຖື ອັນດັບ 1 ໃນລາວ</p>
                 </div>
@@ -109,7 +109,7 @@
             <!-- Desktop Search Bar -->
             <div class="hidden md:flex flex-1 max-w-md mx-4 relative">
                 <i class="fa-solid fa-magnifying-glass absolute left-3.5 top-1/2 -translate-y-1/2 text-gray-500 text-sm"></i>
-                <input type="text" id="searchInput" oninput="handleSearch()" placeholder="ຄົ້ນຫາໂປຣເກມ (Free Fire, ROV, Roblox, ບັດເຕີມເງິນ)..." class="w-full bg-cyber-black/80 border border-cyber-border rounded-xl pl-10 pr-4 py-2 text-xs text-gray-200 placeholder-gray-500 focus:outline-none focus:border-cyan-500 transition-all">
+                <input type="text" id="searchInput" oninput="handleSearch()" placeholder="ຄົ້ນຫາໂປຣເກມ (Free Fire, ROV, Roblox, PUBG)..." class="w-full bg-cyber-black/80 border border-cyber-border rounded-xl pl-10 pr-4 py-2 text-xs text-gray-200 placeholder-gray-500 focus:outline-none focus:border-cyan-500 transition-all">
             </div>
 
             <!-- User Actions & Auth -->
@@ -129,10 +129,10 @@
                     <span>ຄັງໂປຣຂອງຂ້ອຍ</span>
                 </button>
 
-                <!-- Admin Toggle Button -->
-                <button onclick="toggleAdminPanel()" class="px-3 py-2 rounded-xl bg-yellow-500/10 hover:bg-yellow-500/20 text-xs text-yellow-400 font-bold border border-yellow-500/30 transition-all flex items-center gap-1.5">
+                <!-- Hidden / Protected Admin Toggle Button -->
+                <button id="adminNavBtn" onclick="toggleAdminPanel()" class="hidden px-3 py-2 rounded-xl bg-yellow-500/10 hover:bg-yellow-500/20 text-xs text-yellow-400 font-bold border border-yellow-500/30 transition-all items-center gap-1.5">
                     <i class="fa-solid fa-crown text-sm"></i>
-                    <span class="hidden lg:inline">ແຜງ Admin</span>
+                    <span>ແຜງ Admin</span>
                 </button>
 
                 <div id="navUserArea">
@@ -156,18 +156,18 @@
                 ສູນຮວມ <span class="bg-gradient-to-r from-purple-400 via-pink-400 to-cyan-400 bg-clip-text text-transparent">ໂປຣເກມ ແລະ ສູດ VIP</span> ປອດໄພ
             </h1>
             <p class="text-gray-400 text-xs md:text-sm max-w-2xl mx-auto mb-6 leading-relaxed">
-                ບໍລິການຂາຍໂປຣ Free Fire, ROV, Roblox, PUBG Mobile ແລະ ບັດເຕີມເງິນເກມ ອັບເດດ Bypass Anti-cheat ໃໝ່ລ່າສຸດ ປອດໄພ 100% ບໍ່ໂດນແບນ.
+                ບໍລິການຂາຍໂປຣ Free Fire, ROV, Roblox, PUBG Mobile ແລະ ບັດເຕີມເງິນເກມ ອັບເດດ Bypass Anti-cheat ໃໝ່ລ່າສຸດ ປອດໄພ 100%.
             </p>
 
-            <!-- Quick Stats -->
-            <div class="grid grid-cols-2 md:grid-cols-4 gap-3 max-w-3xl mx-auto mb-6 text-left">
+            <!-- Real Stats -->
+            <div class="grid grid-cols-2 md:grid-cols-3 gap-3 max-w-2xl mx-auto mb-6 text-left">
                 <div class="glass p-3 rounded-xl border border-cyber-border flex items-center gap-3">
                     <div class="w-10 h-10 rounded-lg bg-purple-500/10 border border-purple-500/30 flex items-center justify-center text-purple-400">
                         <i class="fa-solid fa-users text-lg"></i>
                     </div>
                     <div>
-                        <div class="text-base font-extrabold text-white" id="statTotalUsers">12,540</div>
-                        <div class="text-[10px] text-gray-400">ສະມາຊິກທັງໝົດ</div>
+                        <div class="text-base font-extrabold text-white" id="statTotalUsers">0</div>
+                        <div class="text-[10px] text-gray-400">ສະມາຊິກທັງໝົດ (Real)</div>
                     </div>
                 </div>
                 <div class="glass p-3 rounded-xl border border-cyber-border flex items-center gap-3">
@@ -184,17 +184,8 @@
                         <i class="fa-solid fa-cart-shopping text-lg"></i>
                     </div>
                     <div>
-                        <div class="text-base font-extrabold text-white">45,800+</div>
-                        <div class="text-[10px] text-gray-400">ຍອດສັ່ງຊື້ສຳເລັດ</div>
-                    </div>
-                </div>
-                <div class="glass p-3 rounded-xl border border-cyber-border flex items-center gap-3">
-                    <div class="w-10 h-10 rounded-lg bg-yellow-500/10 border border-yellow-500/30 flex items-center justify-center text-yellow-400">
-                        <i class="fa-solid fa-user-shield text-lg"></i>
-                    </div>
-                    <div>
-                        <div class="text-base font-extrabold text-white" id="statTotalAdmins">1</div>
-                        <div class="text-[10px] text-gray-400">ຜູ້ດູແລລະບົບ (Admin)</div>
+                        <div class="text-base font-extrabold text-white" id="statTotalOrders">0</div>
+                        <div class="text-[10px] text-gray-400">ຍອດສັ່ງຊື້ສຳເລັດ (Real)</div>
                     </div>
                 </div>
             </div>
@@ -376,8 +367,8 @@
             <form id="authForm" onsubmit="handleAuthSubmit(event)">
                 <div class="space-y-3">
                     <div>
-                        <label class="block text-xs font-semibold text-gray-300 mb-1">ຊື່ຜູ້ໃຊ້ / ເບີໂທລະສັບ (ພິມ `admin` ເພື່ອເຂົ້າສິດຜູ້ດູແລ)</label>
-                        <input type="text" id="authUsername" required placeholder="020 XXXXXXXX ຫຼື admin" class="w-full bg-cyber-black border border-cyber-border rounded-xl px-3 py-2 text-xs text-white focus:outline-none focus:border-purple-500">
+                        <label class="block text-xs font-semibold text-gray-300 mb-1">ຊື່ຜູ້ໃຊ້ / ເບີໂທລະສັບ</label>
+                        <input type="text" id="authUsername" required placeholder="020 XXXXXXXX" class="w-full bg-cyber-black border border-cyber-border rounded-xl px-3 py-2 text-xs text-white focus:outline-none focus:border-purple-500">
                     </div>
                     <div>
                         <label class="block text-xs font-semibold text-gray-300 mb-1">ລະຫັດຜ່ານ</label>
@@ -391,7 +382,7 @@
         </div>
     </div>
 
-    <!-- Admin Control Panel Modal (Protected for Admin only) -->
+    <!-- Admin Control Panel Modal (Secured) -->
     <div id="adminModal" class="fixed inset-0 bg-black/90 backdrop-blur-md z-50 hidden flex items-center justify-center p-4 overflow-y-auto">
         <div class="bg-cyber-card border border-yellow-500/40 rounded-2xl w-full max-w-5xl p-6 shadow-2xl relative my-8 max-h-[90vh] overflow-y-auto">
             <button onclick="toggleAdminPanel()" class="absolute top-4 right-4 text-gray-400 hover:text-white w-8 h-8 rounded-full bg-cyber-dark flex items-center justify-center border border-cyber-border">
@@ -403,7 +394,7 @@
                     <i class="fa-solid fa-crown text-2xl"></i>
                 </div>
                 <div>
-                    <h3 class="text-lg font-bold text-white">ແຜງຈັດການລະບົບຜູ້ດູແລ (Admin Only Mode)</h3>
+                    <h3 class="text-lg font-bold text-white">ແຜງຈັດການລະບົບຜູ້ດູແລ (Admin Control Center)</h3>
                     <p class="text-xs text-gray-400">ເພີ່ມ, ແກ້ໄຂ, ລົບ ໂປຣເກມ ແລະ ອະນຸມັດຍອດເງິນ</p>
                 </div>
             </div>
@@ -557,12 +548,13 @@
             }
         ];
 
+        const SECRET_ADMIN_USER = "admin";
         let products = [];
-        let pendingSlips = [
-            { id: 'slip-101', user: 'Khamla2026', amount: 50000, time: '10:30 AM', status: 'Pending' }
-        ];
+        let pendingSlips = [];
         let currentCategory = 'all';
         let currentUser = null;
+        let allRegisteredUsers = [];
+        let totalOrdersCount = 0;
 
         window.onload = function() {
             loadState();
@@ -570,6 +562,7 @@
             renderInventory();
             renderAdminTable();
             renderAdminSlips();
+            updateRealStats();
         };
 
         function loadState() {
@@ -579,6 +572,16 @@
             } else {
                 products = [...INITIAL_PRODUCTS];
                 saveProducts();
+            }
+
+            const savedUsersList = localStorage.getItem('laomods_users_list');
+            if (savedUsersList) {
+                try { allRegisteredUsers = JSON.parse(savedUsersList); } catch(e) { allRegisteredUsers = []; }
+            }
+
+            const savedOrders = localStorage.getItem('laomods_orders_count');
+            if (savedOrders) {
+                totalOrdersCount = parseInt(savedOrders) || 0;
             }
 
             const savedUser = localStorage.getItem('laomods_user');
@@ -594,25 +597,44 @@
 
         function saveUser() {
             localStorage.setItem('laomods_user', JSON.stringify(currentUser));
+            localStorage.setItem('laomods_users_list', JSON.stringify(allRegisteredUsers));
+            localStorage.setItem('laomods_orders_count', totalOrdersCount.toString());
+            updateRealStats();
+        }
+
+        function updateRealStats() {
+            document.getElementById('statTotalUsers').innerText = allRegisteredUsers.length;
+            document.getElementById('statTotalOrders').innerText = totalOrdersCount;
         }
 
         function updateUserUI() {
             const badge = document.getElementById('userBalanceBadge');
             const navText = document.getElementById('navBalanceText');
             const area = document.getElementById('navUserArea');
+            const adminBtn = document.getElementById('adminNavBtn');
 
             if (currentUser) {
                 badge.classList.remove('hidden');
                 badge.classList.add('flex');
-                navText.innerText = `${currentUser.balance.toLocaleString()} ₭`;
+                
+                const isAdmin = currentUser.username.toLowerCase() === SECRET_ADMIN_USER;
 
-                const isAdmin = currentUser.username.toLowerCase() === 'admin' || currentUser.username === '2022222222';
+                if (isAdmin) {
+                    navText.innerText = "∞ (Admin)";
+                    adminBtn.classList.remove('hidden');
+                    adminBtn.classList.add('flex');
+                } else {
+                    navText.innerText = `${(currentUser.balance || 0).toLocaleString()} ₭`;
+                    adminBtn.classList.add('hidden');
+                    adminBtn.classList.remove('flex');
+                }
+
                 area.innerHTML = `
                     <div class="flex items-center gap-2 bg-cyber-card border border-purple-500/30 px-3 py-1.5 rounded-xl">
                         <div class="w-6 h-6 rounded-full bg-gradient-to-tr from-purple-600 to-cyan-500 flex items-center justify-center text-[10px] font-black text-white">
                             ${currentUser.username.charAt(0).toUpperCase()}
                         </div>
-                        <span class="text-xs text-gray-200 font-bold max-w-[90px] truncate">${currentUser.username} ${isAdmin ? '(Admin)' : ''}</span>
+                        <span class="text-xs text-gray-200 font-bold max-w-[90px] truncate">${currentUser.username}</span>
                         <button onclick="logout()" class="text-gray-400 hover:text-red-400 text-xs ml-1" title="ອອກຈາກລະບົບ">
                             <i class="fa-solid fa-right-from-bracket"></i>
                         </button>
@@ -621,6 +643,9 @@
             } else {
                 badge.classList.add('hidden');
                 badge.classList.remove('flex');
+                adminBtn.classList.add('hidden');
+                adminBtn.classList.remove('flex');
+
                 area.innerHTML = `
                     <button onclick="openAuthModal()" class="px-4 py-2 rounded-xl bg-gradient-to-r from-purple-600 to-cyan-600 hover:from-purple-500 hover:to-cyan-500 text-white font-bold text-xs transition-all shadow-lg shadow-purple-600/20 active:scale-95 flex items-center gap-2">
                         <i class="fa-solid fa-right-to-bracket"></i>
@@ -769,16 +794,23 @@
             const prod = products.find(p => p.id === id);
             if (!prod) return;
 
-            if (currentUser.balance < prod.price) {
-                showToast(`ຍອດເງິນບໍ່ພໍ! (${currentUser.balance.toLocaleString()} ₭) ກະລຸນາເຕີມເງິນ`, 'info');
+            const isAdmin = currentUser.username.toLowerCase() === SECRET_ADMIN_USER;
+
+            if (!isAdmin && currentUser.balance < prod.price) {
+                showToast(`ຍອດເງິນບໍ່ພໍ! (${(currentUser.balance || 0).toLocaleString()} ₭) ກະລຸນາເຕີມເງິນ`, 'info');
                 openTopUpModal();
                 return;
             }
 
-            currentUser.balance -= prod.price;
+            if (!isAdmin) {
+                currentUser.balance -= prod.price;
+            }
+
             if (!currentUser.purchases.includes(prod.id)) {
                 currentUser.purchases.push(prod.id);
             }
+
+            totalOrdersCount++;
             saveUser();
             updateUserUI();
 
@@ -875,7 +907,7 @@
                 status: 'Pending'
             });
 
-            currentUser.balance += amt;
+            currentUser.balance = (currentUser.balance || 0) + amt;
             saveUser();
             updateUserUI();
 
@@ -904,19 +936,30 @@
             } else {
                 tabR.className = 'flex-1 pb-3 text-center text-xs font-extrabold border-b-2 border-purple-500 text-purple-400';
                 tabL.className = 'flex-1 pb-3 text-center text-xs font-extrabold border-b-2 border-transparent text-gray-400 hover:text-gray-200';
-                submitBtn.innerText = 'ສະໝັກສະມາຊິກໃໝ່ (ຍອດເງິນເລີ່ມຕົ້ນ 0 ₭)';
+                submitBtn.innerText = 'ສະໝັກສະມາຊິກໃໝ່ (ຍອດເງິນ 0 ₭)';
             }
         }
 
         function handleAuthSubmit(e) {
             e.preventDefault();
             const username = document.getElementById('authUsername').value.trim();
-            
-            currentUser = {
-                username: username,
-                balance: 0, // สมัครใหม่เงินเป็น 0 เป๊ะๆ
-                purchases: []
-            };
+            if (!username) return;
+
+            const isAdmin = username.toLowerCase() === SECRET_ADMIN_USER;
+
+            // Check if user already exists
+            let existing = allRegisteredUsers.find(u => u.username.toLowerCase() === username.toLowerCase());
+            if (existing) {
+                currentUser = existing;
+            } else {
+                currentUser = {
+                    username: username,
+                    balance: isAdmin ? 999999999 : 0, // Admin unlimited
+                    purchases: []
+                };
+                allRegisteredUsers.push(currentUser);
+            }
+
             saveUser();
             updateUserUI();
             closeAuthModal();
@@ -931,15 +974,7 @@
         }
 
         function toggleAdminPanel() {
-            if (!currentUser) {
-                showToast('ກະລຸນາເຂົ້າສູ່ລະບົບກ่อน!', 'info');
-                openAuthModal();
-                return;
-            }
-
-            const isAdmin = currentUser.username.toLowerCase() === 'admin' || currentUser.username === '2022222222';
-            if (!isAdmin) {
-                showToast('ປະຕິເສດການເຂົ້າເຖິງ! ສະຫງວນສິດສະເພາະ Admin ເທົ່ານັ້ນ', 'info');
+            if (!currentUser || currentUser.username.toLowerCase() !== SECRET_ADMIN_USER) {
                 return;
             }
 
@@ -1085,3 +1120,4 @@
     </script>
 </body>
 </html>
+
