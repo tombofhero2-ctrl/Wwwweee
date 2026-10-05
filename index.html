@@ -100,6 +100,1146 @@
                 <div>
                     <div class="flex items-center gap-2">
                         <span class="text-2xl font-black bg-gradient-to-r from-purple-400 via-cyan-400 to-pink-500 bg-clip-text text-transparent">LAO MODS</span>
+                        <span class="bg-cyan-500/10 border border-cyan-500/30 text-cyan-300 text-[10px] font-bold px-2 py-0.5 rounded-full">v5.0 ULTIMATE</span>
+                    </div>
+                    <p class="text-[10px] text-gray-400 font-medium">ຮ້ານຂາຍໂປຣເກມມືຖື ອັນດັບ 1 ໃນລາວ</p>
+                </div>
+            </div>
+
+            <!-- Desktop Search Bar -->
+            <div class="hidden md:flex flex-1 max-w-md mx-4 relative">
+                <i class="fa-solid fa-magnifying-glass absolute left-3.5 top-1/2 -translate-y-1/2 text-gray-500 text-sm"></i>
+                <input type="text" id="searchInput" oninput="handleSearch()" placeholder="ຄົ້ນຫາໂປຣເກມ (Free Fire, ROV, Roblox, ໂປຣຟຣີ)..." class="w-full bg-cyber-black/80 border border-cyber-border rounded-xl pl-10 pr-4 py-2 text-xs text-gray-200 placeholder-gray-500 focus:outline-none focus:border-cyan-500 transition-all">
+            </div>
+
+            <!-- User Actions & Auth -->
+            <div class="flex items-center space-x-3">
+                <button onclick="claimDailyReward()" class="hidden md:flex items-center gap-1.5 px-3 py-2 rounded-xl bg-amber-500/10 hover:bg-amber-500/20 border border-amber-500/30 text-xs text-amber-300 font-bold transition-all">
+                    <i class="fa-solid fa-gift text-amber-400"></i>
+                    <span>ຮັບໂບນັດຟຣີ</span>
+                </button>
+
+                <div id="userBalanceBadge" class="hidden items-center bg-cyber-dark border border-purple-500/30 rounded-xl p-1 pl-3 pr-2 gap-2">
+                    <div class="text-right">
+                        <span class="text-[9px] text-gray-400 block font-semibold">ຍອດເງິນຄົງເຫຼືອ</span>
+                        <span id="navBalanceText" class="text-xs font-black text-cyan-400">0 ₭</span>
+                    </div>
+                    <button onclick="openTopUpModal()" class="w-8 h-8 rounded-lg bg-gradient-to-tr from-emerald-600 to-teal-500 hover:from-emerald-500 hover:to-teal-400 text-white flex items-center justify-center text-xs shadow-md transition-all active:scale-95" title="ເຕີມເງິນ">
+                        <i class="fa-solid fa-plus font-bold"></i>
+                    </button>
+                </div>
+
+                <button onclick="openInventoryModal()" class="hidden sm:flex items-center gap-1.5 px-3 py-2 rounded-xl bg-cyber-dark hover:bg-cyber-card border border-cyber-border text-xs text-gray-300 font-semibold transition-all">
+                    <i class="fa-solid fa-box-archive text-purple-400"></i>
+                    <span>ຄັງໂປຣຂອງຂ້ອຍ</span>
+                </button>
+
+                <!-- Protected Admin Button -->
+                <button id="adminNavBtn" onclick="openAdminSecurityModal()" class="hidden px-3 py-2 rounded-xl bg-yellow-500/10 hover:bg-yellow-500/20 text-xs text-yellow-400 font-bold border border-yellow-500/30 transition-all items-center gap-1.5">
+                    <i class="fa-solid fa-crown text-sm"></i>
+                    <span>ແຜງ Admin</span>
+                </button>
+
+                <div id="navUserArea">
+                    <button onclick="openAuthModal()" class="px-4 py-2 rounded-xl bg-gradient-to-r from-purple-600 to-cyan-600 hover:from-purple-500 hover:to-cyan-500 text-white font-bold text-xs transition-all shadow-lg shadow-purple-600/20 active:scale-95 flex items-center gap-2">
+                        <i class="fa-solid fa-right-to-bracket"></i>
+                        <span>ເຂົ້າສູ່ລະບົບ</span>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Header Hero Section -->
+    <header class="relative overflow-hidden py-10 px-4 border-b border-cyber-border">
+        <div class="absolute inset-0 bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] from-purple-900/30 via-cyber-black to-cyber-black -z-10"></div>
+        <div class="max-w-7xl mx-auto text-center relative z-10">
+            <div class="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-purple-500/10 border border-purple-500/20 text-purple-300 text-xs font-semibold mb-4">
+                <i class="fa-solid fa-bolt-lightning text-yellow-400 animate-pulse"></i> ລະບົບອັດໂຕໂນມັດ 100% — ຊື້ຫຼືຮັບໂປຣຟຣີ ແລ້ວໄດ້ລິ້ງໃຊ້ງານທັນທີ!
+            </div>
+            <h1 class="text-3xl md:text-6xl font-black text-white tracking-tight mb-4 leading-tight">
+                ສູນຮວມ <span class="bg-gradient-to-r from-purple-400 via-pink-400 to-cyan-400 bg-clip-text text-transparent">ໂປຣເກມ VIP ແລະ ໂປຣຟຣີ</span> ປອດໄພ
+            </h1>
+            <p class="text-gray-400 text-xs md:text-sm max-w-2xl mx-auto mb-6 leading-relaxed">
+                ບໍລິການຂາຍໂປຣ Free Fire, ROV, Roblox, PUBG Mobile ພ້ອມລິ້ງດາວໂຫຼດ/ໃຊ້ງານອັດໂຕໂນມັດ ປອດໄພ 100%.
+            </p>
+
+            <!-- Real Stats -->
+            <div class="grid grid-cols-2 md:grid-cols-3 gap-3 max-w-2xl mx-auto mb-6 text-left">
+                <div class="glass p-3 rounded-xl border border-cyber-border flex items-center gap-3">
+                    <div class="w-10 h-10 rounded-lg bg-purple-500/10 border border-purple-500/30 flex items-center justify-center text-purple-400">
+                        <i class="fa-solid fa-users text-lg"></i>
+                    </div>
+                    <div>
+                        <div class="text-base font-extrabold text-white" id="statTotalUsers">0</div>
+                        <div class="text-[10px] text-gray-400">ສະມາຊິກທັງໝົດ (Real)</div>
+                    </div>
+                </div>
+                <div class="glass p-3 rounded-xl border border-cyber-border flex items-center gap-3">
+                    <div class="w-10 h-10 rounded-lg bg-cyan-500/10 border border-cyan-500/30 flex items-center justify-center text-cyan-400">
+                        <i class="fa-solid fa-shield-check text-lg"></i>
+                    </div>
+                    <div>
+                        <div class="text-base font-extrabold text-white">100%</div>
+                        <div class="text-[10px] text-gray-400">Safe Protection</div>
+                    </div>
+                </div>
+                <div class="glass p-3 rounded-xl border border-cyber-border flex items-center gap-3">
+                    <div class="w-10 h-10 rounded-lg bg-pink-500/10 border border-pink-500/30 flex items-center justify-center text-pink-400">
+                        <i class="fa-solid fa-cart-shopping text-lg"></i>
+                    </div>
+                    <div>
+                        <div class="text-base font-extrabold text-white" id="statTotalOrders">0</div>
+                        <div class="text-[10px] text-gray-400">ຍອດສັ່ງຊື້/ຮັບໂປຣ (Real)</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="max-w-7xl mx-auto px-4 lg:px-8 py-8 flex-1 w-full">
+
+        <!-- Category Filters -->
+        <div class="flex items-center justify-start md:justify-center space-x-2 md:space-x-3 overflow-x-auto pb-4 mb-8">
+            <button onclick="filterCategory('all')" id="btn-cat-all" class="cat-btn px-4 py-2 rounded-xl font-bold text-xs transition-all flex items-center gap-2 whitespace-nowrap bg-purple-600 text-white shadow-lg shadow-purple-600/30">
+                <i class="fa-solid fa-border-all"></i> ທັງໝົດ
+            </button>
+            <button onclick="filterCategory('free')" id="btn-cat-free" class="cat-btn px-4 py-2 rounded-xl font-bold text-xs transition-all flex items-center gap-2 whitespace-nowrap bg-emerald-600/20 text-emerald-400 border border-emerald-500/40 hover:bg-emerald-600 hover:text-white">
+                <i class="fa-solid fa-gift text-emerald-400"></i> 🎁 ໂປຣຟຣີ (FREE MODS)
+            </button>
+            <button onclick="filterCategory('freefire')" id="btn-cat-freefire" class="cat-btn px-4 py-2 rounded-xl font-bold text-xs transition-all flex items-center gap-2 whitespace-nowrap bg-cyber-card text-gray-400 border border-cyber-border hover:border-purple-500/50 hover:text-white">
+                <i class="fa-solid fa-fire text-orange-500"></i> Free Fire
+            </button>
+            <button onclick="filterCategory('rov')" id="btn-cat-rov" class="cat-btn px-4 py-2 rounded-xl font-bold text-xs transition-all flex items-center gap-2 whitespace-nowrap bg-cyber-card text-gray-400 border border-cyber-border hover:border-purple-500/50 hover:text-white">
+                <i class="fa-solid fa-shield-halved text-cyan-400"></i> ROV / MLBB
+            </button>
+            <button onclick="filterCategory('roblox')" id="btn-cat-roblox" class="cat-btn px-4 py-2 rounded-xl font-bold text-xs transition-all flex items-center gap-2 whitespace-nowrap bg-cyber-card text-gray-400 border border-cyber-border hover:border-purple-500/50 hover:text-white">
+                <i class="fa-solid fa-cube text-red-500"></i> Roblox
+            </button>
+            <button onclick="filterCategory('pubg')" id="btn-cat-pubg" class="cat-btn px-4 py-2 rounded-xl font-bold text-xs transition-all flex items-center gap-2 whitespace-nowrap bg-cyber-card text-gray-400 border border-cyber-border hover:border-purple-500/50 hover:text-white">
+                <i class="fa-solid fa-crosshair text-yellow-500"></i> PUBG Mobile
+            </button>
+        </div>
+
+        <!-- Section Title & Meta -->
+        <div class="flex items-center justify-between mb-6 pb-2 border-b border-cyber-border/60">
+            <h2 class="text-lg font-extrabold text-white flex items-center gap-2">
+                <i class="fa-solid fa-store text-cyan-400"></i>
+                <span id="categoryTitle">ໂປຣເກມທັງໝົດ</span>
+            </h2>
+            <span id="productCount" class="text-xs text-gray-400 bg-cyber-card px-3 py-1 rounded-full border border-cyber-border font-mono">0 ລາຍການ</span>
+        </div>
+
+        <!-- Product Cards Grid -->
+        <div id="productGrid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+            <!-- Dynamic products injected by JS -->
+        </div>
+
+        <!-- Empty Results Message -->
+        <div id="emptyState" class="hidden text-center py-16 glass rounded-2xl border border-cyber-border my-8">
+            <i class="fa-solid fa-box-open text-5xl text-gray-600 mb-4"></i>
+            <h3 class="text-lg font-bold text-gray-300">ບໍ່ພົບຂໍ້ມູນໂປຣເກມ</h3>
+            <p class="text-gray-500 text-xs mt-1">ກະລຸນາລອງຄົ້ນຫາຄຳອື່ນ ຫຼື ປ່ຽນໝວດໝູ່ເກມ</p>
+        </div>
+    </main>
+
+    <!-- Product Detail Modal -->
+    <div id="detailModal" class="fixed inset-0 bg-black/85 backdrop-blur-md z-50 hidden flex items-center justify-center p-4 overflow-y-auto">
+        <div class="bg-cyber-card border border-purple-500/40 rounded-2xl w-full max-w-2xl p-6 shadow-2xl relative my-8">
+            <button onclick="closeDetailModal()" class="absolute top-4 right-4 text-gray-400 hover:text-white w-8 h-8 rounded-full bg-cyber-dark flex items-center justify-center border border-cyber-border">
+                <i class="fa-solid fa-xmark"></i>
+            </button>
+
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-6 mb-6">
+                <div>
+                    <img id="detailImage" src="" alt="Mod Preview" class="w-full h-52 object-cover rounded-xl border border-cyber-border shadow-lg">
+                    <div class="mt-3 flex items-center justify-between text-xs text-gray-400 bg-cyber-dark p-2.5 rounded-xl border border-cyber-border">
+                        <span><i class="fa-solid fa-gamepad text-purple-400 mr-1"></i> ຮອງຮັບ: <strong id="detailPlatform" class="text-white">Android, iOS, PC</strong></span>
+                        <span class="px-2 py-0.5 rounded text-[10px] font-bold bg-emerald-500/20 text-emerald-400 border border-emerald-500/30">Undetected</span>
+                    </div>
+                </div>
+                <div class="flex flex-col justify-between">
+                    <div>
+                        <span id="detailCategory" class="text-[10px] font-bold text-cyan-400 uppercase tracking-widest block mb-1">FREE FIRE VIP</span>
+                        <h3 id="detailTitle" class="text-lg font-extrabold text-white leading-snug">...</h3>
+                        <div class="text-2xl font-black text-cyan-400 my-2 font-mono" id="detailPrice">0 ₭</div>
+                        <p id="detailDesc" class="text-xs text-gray-400 leading-relaxed mb-3">...</p>
+                    </div>
+
+                    <div class="space-y-2">
+                        <button id="detailBuyBtn" class="w-full py-3 rounded-xl bg-gradient-to-r from-purple-600 via-cyan-600 to-teal-500 hover:from-purple-500 hover:to-teal-400 text-white font-extrabold text-xs shadow-lg shadow-cyan-600/20 active:scale-95 transition-all flex items-center justify-center gap-2">
+                            <i class="fa-solid fa-download"></i>
+                            <span>ຮັບໂປຣ / ສັ່ງຊື້ດຽວນີ້</span>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Top Up Modal (BCEL One) -->
+    <div id="topUpModal" class="fixed inset-0 bg-black/85 backdrop-blur-md z-50 hidden flex items-center justify-center p-4 overflow-y-auto">
+        <div class="bg-cyber-card border border-emerald-500/40 rounded-2xl w-full max-w-lg p-6 shadow-2xl relative my-8">
+            <button onclick="closeTopUpModal()" class="absolute top-4 right-4 text-gray-400 hover:text-white w-8 h-8 rounded-full bg-cyber-dark flex items-center justify-center border border-cyber-border">
+                <i class="fa-solid fa-xmark"></i>
+            </button>
+
+            <div class="text-center pb-4 border-b border-cyber-border">
+                <div class="w-12 h-12 rounded-2xl bg-emerald-500/10 border border-emerald-500/30 text-emerald-400 flex items-center justify-center mx-auto mb-2 text-xl">
+                    <i class="fa-solid fa-wallet"></i>
+                </div>
+                <h3 class="text-lg font-bold text-white">ເຕີມເງິນເຂົ້າກະເປົ໋າ (Top-up Balance)</h3>
+                <p class="text-xs text-gray-400">ສະແກນ QR Code BCEL One ເຕີມເງິນເຂົ້າລະບົບອັດໂຕໂນມັດ 24 ຊົ່ວໂມງ</p>
+            </div>
+
+            <div class="py-4">
+                <label class="block text-xs font-semibold text-gray-300 mb-2">ເລືອກຈຳນວນເງິນທີ່ຕ້ອງການເຕີມ (₭):</label>
+                <div class="grid grid-cols-3 gap-2 mb-4">
+                    <button onclick="selectTopUpAmount(10000)" class="p-2 rounded-xl bg-cyber-dark border border-cyber-border text-xs font-bold text-gray-300 hover:border-emerald-500">10,000 ₭</button>
+                    <button onclick="selectTopUpAmount(20000)" class="p-2 rounded-xl bg-cyber-dark border border-cyber-border text-xs font-bold text-gray-300 hover:border-emerald-500">20,000 ₭</button>
+                    <button onclick="selectTopUpAmount(50000)" class="p-2 rounded-xl bg-cyber-dark border border-cyber-border text-xs font-bold text-gray-300 hover:border-emerald-500">50,000 ₭</button>
+                    <button onclick="selectTopUpAmount(100000)" class="p-2 rounded-xl bg-cyber-dark border border-cyber-border text-xs font-bold text-gray-300 hover:border-emerald-500">100,000 ₭</button>
+                    <button onclick="selectTopUpAmount(200000)" class="p-2 rounded-xl bg-cyber-dark border border-cyber-border text-xs font-bold text-gray-300 hover:border-emerald-500">200,000 ₭</button>
+                    <button onclick="selectTopUpAmount(500000)" class="p-2 rounded-xl bg-cyber-dark border border-cyber-border text-xs font-bold text-gray-300 hover:border-emerald-500">500,000 ₭</button>
+                </div>
+
+                <div class="relative mb-4">
+                    <input type="number" id="customTopUpAmount" value="50000" oninput="generateBCELQR()" placeholder="ກໍານົດຈຳນວນເງິນເອງ..." class="w-full bg-cyber-black border border-cyber-border rounded-xl px-3 py-2 text-sm text-cyan-400 font-bold focus:outline-none focus:border-emerald-500">
+                    <span class="absolute right-3 top-1/2 -translate-y-1/2 text-xs text-gray-400 font-bold">LAK (₭)</span>
+                </div>
+
+                <div class="bg-cyber-black p-4 rounded-2xl border border-cyber-border text-center">
+                    <div class="inline-block p-2 bg-white rounded-xl shadow-xl mb-2">
+                        <img id="bcelQrImage" src="https://api.qrserver.com/v1/create-qr-code/?size=180x180&data=BCELONE_LAK_50000_LAO_MOD_STORE" alt="BCEL One QR" class="w-40 h-40 object-contain">
+                    </div>
+                    <div class="text-[11px] text-gray-300 space-y-0.5">
+                        <p class="font-bold text-red-400">ທະນາຄານ ການຄ້າຕ່າງປະເທດລາວ (BCEL One)</p>
+                        <p class="font-mono text-cyan-400">ເລກບັນຊີ: <strong>160-12-00-01982736-001</strong></p>
+                        <p class="text-gray-400">ຊື່ບັນຊີ: LAO MOD STORE SOLE CO., LTD</p>
+                    </div>
+                </div>
+            </div>
+
+            <form onsubmit="handleSlipUpload(event)" class="space-y-3">
+                <div>
+                    <label class="block text-xs font-semibold text-gray-300 mb-1">ອັບໂຫຼດ ໃບບິນໂອນເງິນ (Slip)</label>
+                    <input type="file" id="slipFileInput" accept="image/*" required class="w-full text-xs text-gray-400 file:mr-3 file:py-2 file:px-4 file:rounded-xl file:border-0 file:text-xs file:font-bold file:bg-emerald-600 file:text-white hover:file:bg-emerald-500">
+                </div>
+                <button type="submit" class="w-full py-3 rounded-xl bg-gradient-to-r from-emerald-600 to-teal-500 hover:from-emerald-500 hover:to-teal-400 text-white font-extrabold text-xs shadow-lg shadow-emerald-600/20 active:scale-95 transition-all flex items-center justify-center gap-2">
+                    <i class="fa-solid fa-file-invoice-dollar"></i>
+                    <span>ຢືນຢັນການເຕີມເງິນ</span>
+                </button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Inventory / My Scripts Modal -->
+    <div id="inventoryModal" class="fixed inset-0 bg-black/85 backdrop-blur-md z-50 hidden flex items-center justify-center p-4 overflow-y-auto">
+        <div class="bg-cyber-card border border-purple-500/40 rounded-2xl w-full max-w-3xl p-6 shadow-2xl relative my-8 max-h-[85vh] flex flex-col">
+            <button onclick="closeInventoryModal()" class="absolute top-4 right-4 text-gray-400 hover:text-white w-8 h-8 rounded-full bg-cyber-dark flex items-center justify-center border border-cyber-border">
+                <i class="fa-solid fa-xmark"></i>
+            </button>
+
+            <div class="flex items-center gap-3 pb-4 border-b border-cyber-border">
+                <div class="w-10 h-10 rounded-xl bg-purple-500/10 border border-purple-500/30 text-purple-400 flex items-center justify-center text-lg">
+                    <i class="fa-solid fa-box-archive"></i>
+                </div>
+                <div>
+                    <h3 class="text-base font-bold text-white">ຄັງໂປຣເກມຂອງຂ້ອຍ (My Purchased & Free Scripts)</h3>
+                    <p class="text-xs text-gray-400">ລາຍການໂປຣເກມ ແລະ ລິ້ງໃຊ້ງານທັງໝົດຂອງທ່ານ</p>
+                </div>
+            </div>
+
+            <div id="inventoryList" class="py-4 overflow-y-auto space-y-3 flex-1">
+                <!-- Dynamic Items with Working Download Links -->
+            </div>
+        </div>
+    </div>
+
+    <!-- Auth Modal -->
+    <div id="authModal" class="fixed inset-0 bg-black/85 backdrop-blur-md z-50 hidden flex items-center justify-center p-4">
+        <div class="bg-cyber-card border border-purple-500/40 rounded-2xl w-full max-w-md p-6 shadow-2xl relative">
+            <button onclick="closeAuthModal()" class="absolute top-4 right-4 text-gray-400 hover:text-white w-8 h-8 rounded-full bg-cyber-dark flex items-center justify-center border border-cyber-border">
+                <i class="fa-solid fa-xmark"></i>
+            </button>
+
+            <div class="flex border-b border-cyber-border mb-5">
+                <button onclick="switchAuthTab('login')" id="tabLogin" class="flex-1 pb-3 text-center text-xs font-extrabold border-b-2 border-purple-500 text-purple-400">ເຂົ້າສູ່ລະບົບ</button>
+                <button onclick="switchAuthTab('register')" id="tabRegister" class="flex-1 pb-3 text-center text-xs font-extrabold border-b-2 border-transparent text-gray-400 hover:text-gray-200">ສະໝັກສະມາຊິກ</button>
+            </div>
+
+            <form id="authForm" onsubmit="handleAuthSubmit(event)">
+                <div class="space-y-3">
+                    <div>
+                        <label class="block text-xs font-semibold text-gray-300 mb-1">ຊື່ຜູ້ໃຊ້ / ເບີໂທລະສັບ</label>
+                        <input type="text" id="authUsername" required placeholder="020 XXXXXXXX" class="w-full bg-cyber-black border border-cyber-border rounded-xl px-3 py-2 text-xs text-white focus:outline-none focus:border-purple-500">
+                    </div>
+                    <div>
+                        <label class="block text-xs font-semibold text-gray-300 mb-1">ລະຫັດຜ່ານ</label>
+                        <input type="password" id="authPassword" required placeholder="••••••••" class="w-full bg-cyber-black border border-cyber-border rounded-xl px-3 py-2 text-xs text-white focus:outline-none focus:border-purple-500">
+                    </div>
+                    <button type="submit" id="authSubmitBtn" class="w-full py-2.5 rounded-xl bg-gradient-to-r from-purple-600 to-cyan-600 hover:from-purple-500 hover:to-cyan-500 text-white font-bold text-xs shadow-lg shadow-purple-600/20 transition-all mt-2">
+                        ເຂົ້າສູ່ລະບົບ
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Admin Security Verification Modal -->
+    <div id="adminPinModal" class="fixed inset-0 bg-black/90 backdrop-blur-md z-50 hidden flex items-center justify-center p-4">
+        <div class="bg-cyber-card border border-yellow-500/40 rounded-2xl w-full max-w-sm p-6 shadow-2xl relative text-center">
+            <button onclick="closeAdminPinModal()" class="absolute top-4 right-4 text-gray-400 hover:text-white w-8 h-8 rounded-full bg-cyber-dark flex items-center justify-center border border-cyber-border">
+                <i class="fa-solid fa-xmark"></i>
+            </button>
+            <div class="w-12 h-12 bg-yellow-500/10 border border-yellow-500/30 text-yellow-400 rounded-2xl flex items-center justify-center mx-auto mb-3 text-xl">
+                <i class="fa-solid fa-lock"></i>
+            </div>
+            <h3 class="text-base font-bold text-white mb-1">Admin Security PIN Verification</h3>
+            <p class="text-xs text-gray-400 mb-4">ກະລຸນາປ້ອນລະຫັດຄວາມປອດໄພ Admin ເພື່ອເຂົ້າແຜງລະບົບ</p>
+            <form onsubmit="verifyAdminPin(event)">
+                <input type="password" id="adminPinInput" maxlength="6" required placeholder="••••••" class="w-full bg-cyber-black border border-cyber-border rounded-xl px-3 py-2 text-center text-lg font-mono tracking-widest text-yellow-400 focus:outline-none focus:border-yellow-500 mb-4">
+                <button type="submit" class="w-full py-2.5 bg-yellow-500 hover:bg-yellow-400 text-black font-bold text-xs rounded-xl shadow-lg">
+                    ຢືນຢັນ Security PIN
+                </button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Admin Control Panel Modal -->
+    <div id="adminModal" class="fixed inset-0 bg-black/90 backdrop-blur-md z-50 hidden flex items-center justify-center p-4 overflow-y-auto">
+        <div class="bg-cyber-card border border-yellow-500/40 rounded-2xl w-full max-w-5xl p-6 shadow-2xl relative my-8 max-h-[90vh] overflow-y-auto">
+            <button onclick="toggleAdminPanel()" class="absolute top-4 right-4 text-gray-400 hover:text-white w-8 h-8 rounded-full bg-cyber-dark flex items-center justify-center border border-cyber-border">
+                <i class="fa-solid fa-xmark"></i>
+            </button>
+
+            <div class="flex items-center gap-3 mb-6 pb-4 border-b border-cyber-border">
+                <div class="p-3 bg-yellow-500/10 border border-yellow-500/30 rounded-xl text-yellow-400">
+                    <i class="fa-solid fa-crown text-2xl"></i>
+                </div>
+                <div>
+                    <h3 class="text-lg font-bold text-white">ແຜງຈັດການລະບົບຜູ້ດູແລ (Admin Control Center)</h3>
+                    <p class="text-xs text-gray-400">ເພີ່ມ, ແກ້ໄຂ, ລົບ ໂປຣເກມ/ໂປຣຟຣີ ແລະ ໃສ່ລິ້ງດາວໂຫຼດໃຊ້ງານ</p>
+                </div>
+            </div>
+
+            <div class="flex space-x-2 border-b border-cyber-border pb-3 mb-6 overflow-x-auto">
+                <button onclick="switchAdminTab('scripts')" id="admTabScripts" class="px-4 py-2 rounded-xl text-xs font-bold bg-yellow-500 text-black">ຈັດການໂປຣເກມ</button>
+                <button onclick="switchAdminTab('slips')" id="admTabSlips" class="px-4 py-2 rounded-xl text-xs font-bold bg-cyber-dark text-gray-400 border border-cyber-border">ອະນຸມັດສະລິບ (<span id="pendingSlipsCount">0</span>)</button>
+            </div>
+
+            <!-- Admin Tab 1: Scripts Manager -->
+            <div id="admSecScripts">
+                <form id="adminProductForm" onsubmit="handleSaveProduct(event)" class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-8 bg-cyber-black/60 p-4 rounded-xl border border-cyber-border">
+                    <input type="hidden" id="editProductId" value="">
+                    
+                    <div>
+                        <label class="block text-xs font-semibold text-gray-300 mb-1">ຊື່ໂປຣເກມ / ສິນຄ້າ <span class="text-red-400">*</span></label>
+                        <input type="text" id="adminTitle" required placeholder="ຕົວຢ່າງ: Free Fire VIP Headshot" class="w-full bg-cyber-dark border border-cyber-border rounded-lg px-3 py-2 text-xs text-white focus:outline-none focus:border-yellow-500">
+                    </div>
+
+                    <div>
+                        <label class="block text-xs font-semibold text-gray-300 mb-1">ໝວດໝູ່ <span class="text-red-400">*</span></label>
+                        <select id="adminCategory" required class="w-full bg-cyber-dark border border-cyber-border rounded-lg px-3 py-2 text-xs text-white focus:outline-none focus:border-yellow-500">
+                            <option value="freefire">Free Fire</option>
+                            <option value="rov">ROV / Mobile Legends</option>
+                            <option value="roblox">Roblox</option>
+                            <option value="pubg">PUBG Mobile</option>
+                        </select>
+                    </div>
+
+                    <div>
+                        <label class="block text-xs font-semibold text-gray-300 mb-1">ລາຄາ LAK (ใส่ 0 เพื่อให้เป็นโปรฟรี) <span class="text-red-400">*</span></label>
+                        <input type="number" id="adminPrice" required placeholder="0 = ໂປຣຟຣີ" class="w-full bg-cyber-dark border border-cyber-border rounded-lg px-3 py-2 text-xs text-white focus:outline-none focus:border-yellow-500">
+                    </div>
+
+                    <div>
+                        <label class="block text-xs font-semibold text-gray-300 mb-1">URL ຮູບພາບ <span class="text-red-400">*</span></label>
+                        <input type="url" id="adminImage" required placeholder="https://..." class="w-full bg-cyber-dark border border-cyber-border rounded-lg px-3 py-2 text-xs text-white focus:outline-none focus:border-yellow-500">
+                    </div>
+
+                    <div class="md:col-span-2">
+                        <label class="block text-xs font-semibold text-gray-300 mb-1">URL ລິ້ງດາວໂຫຼດ / ລິ້ງໃຊ້ງານ (Working Download Link) <span class="text-emerald-400">*</span></label>
+                        <input type="url" id="adminDownloadUrl" required placeholder="https://www.mediafire.com/... ຫຼື ລິ້ງ GitHub, Google Drive" class="w-full bg-cyber-dark border border-cyber-border rounded-lg px-3 py-2 text-xs text-cyan-300 focus:outline-none focus:border-yellow-500">
+                    </div>
+
+                    <div class="md:col-span-2">
+                        <label class="block text-xs font-semibold text-gray-300 mb-1">ຄຸນສົມບັດ (ແຍກດ້ວຍເຄື່ອງໝາຍຈຸດ ,)</label>
+                        <input type="text" id="adminFeatures" placeholder="ລັອກຫົວ 100%, ມອງທະລຸ, ບໍ່ໂດນແບນ" class="w-full bg-cyber-dark border border-cyber-border rounded-lg px-3 py-2 text-xs text-white focus:outline-none focus:border-yellow-500">
+                    </div>
+
+                    <div class="md:col-span-2">
+                        <label class="block text-xs font-semibold text-gray-300 mb-1">ໂຄດໂປຣ / License Key <span class="text-red-400">*</span></label>
+                        <textarea id="adminScriptCode" rows="2" required placeholder="loadstring(game:HttpGet('...'))()" class="w-full bg-cyber-dark border border-cyber-border rounded-lg px-3 py-2 text-xs font-mono text-cyan-300 focus:outline-none focus:border-yellow-500"></textarea>
+                    </div>
+
+                    <div class="md:col-span-2 flex justify-end gap-2">
+                        <button type="button" onclick="resetAdminForm()" class="px-4 py-2 rounded-lg bg-cyber-dark text-xs text-gray-300 border border-cyber-border">ລ້າງຟອມ</button>
+                        <button type="submit" id="adminSubmitBtn" class="px-5 py-2 rounded-lg bg-yellow-500 hover:bg-yellow-400 text-black font-bold text-xs shadow-lg">
+                            <i class="fa-solid fa-plus mr-1"></i> ເພີ່ມໂປຣເກມໃໝ່
+                        </button>
+                    </div>
+                </form>
+
+                <div class="overflow-x-auto rounded-xl border border-cyber-border">
+                    <table class="w-full text-left text-xs text-gray-300">
+                        <thead class="bg-cyber-black text-gray-400 font-bold border-b border-cyber-border">
+                            <tr>
+                                <th class="p-3">ຮູບ</th>
+                                <th class="p-3">ຊື່ໂປຣເກມ</th>
+                                <th class="p-3">ໝວດໝູ່</th>
+                                <th class="p-3">ລາຄາ</th>
+                                <th class="p-3">ລິ້ງໃຊ້ງານ</th>
+                                <th class="p-3 text-center">ຈັດການ</th>
+                            </tr>
+                        </thead>
+                        <tbody id="adminTableBody" class="divide-y divide-cyber-border bg-cyber-dark/50">
+                            <!-- Injected by JS -->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- Admin Tab 2: Slips Review -->
+            <div id="admSecSlips" class="hidden">
+                <div class="overflow-x-auto rounded-xl border border-cyber-border">
+                    <table class="w-full text-left text-xs text-gray-300">
+                        <thead class="bg-cyber-black text-gray-400 font-bold border-b border-cyber-border">
+                            <tr>
+                                <th class="p-3">ຜູ້ໃຊ້</th>
+                                <th class="p-3">ຈຳນວນເງິນ</th>
+                                <th class="p-3">ເວລາ</th>
+                                <th class="p-3">ສະຖານະ</th>
+                                <th class="p-3 text-center">ການດຳເນີນການ</th>
+                            </tr>
+                        </thead>
+                        <tbody id="adminSlipsTableBody" class="divide-y divide-cyber-border bg-cyber-dark/50">
+                            <!-- Injected by JS -->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Toast Notification -->
+    <div id="toast" class="fixed bottom-5 left-5 z-50 hidden transform transition-all duration-300 translate-y-10 opacity-0">
+        <div class="glass border border-cyan-500/40 text-white px-4 py-3 rounded-xl shadow-2xl flex items-center space-x-3">
+            <i id="toastIcon" class="fa-solid fa-circle-check text-cyan-400 text-lg"></i>
+            <span id="toastMsg" class="text-xs font-medium">ຂໍ້ຄວາມແຈ້ງເຕືອນ</span>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="glass border-t border-cyber-border py-8 px-4 text-center text-xs text-gray-500 mt-12">
+        <div class="max-w-7xl mx-auto flex flex-col md:flex-row items-center justify-between gap-4">
+            <div class="flex items-center space-x-2">
+                <span class="font-extrabold text-white text-sm">LAO MOD STORE</span>
+                <span class="text-gray-600">|</span>
+                <span>ເວັບຂາຍໂປຣເກມມືຖື ອັນດັບ 1 ໃນລາວ (Protected Edition)</span>
+            </div>
+            <p>© 2026 LAO MOD STORE. All rights reserved. ປອດໄພ 100%</p>
+        </div>
+    </footer>
+
+    <!-- JavaScript Core Logic -->
+    <script>
+        const INITIAL_PRODUCTS = [
+            {
+                id: 'ff-free-01',
+                title: 'Free Fire Mod Menu (FREE - ໂປຣຟຣີ ລັອກຫົວ 50% + ມອງຝາ)',
+                category: 'freefire',
+                price: 0,
+                image: 'https://images.unsplash.com/photo-1542751371-adc38448a05e?w=500&q=80',
+                features: ['ລັອກຫົວ 50%', 'ມອງເຫັນສັດຕູທະລຸຝາ', 'ໂປຣຟຣີ 100% ດາວໂຫຼດເລີຍ'],
+                downloadUrl: 'https://github.com/LaoMods/FF-Free-Script/releases/download/v1.0/FF_Free_Mod.apk',
+                scriptCode: 'loadstring(game:HttpGet("https://raw.githubusercontent.com/LaoMods/FF-Free-Script/main/free.lua"))()',
+                platform: 'Android & iOS'
+            },
+            {
+                id: 'ff-vip-01',
+                title: 'Free Fire VIP Mod Pro (ລັອກຫົວ 100% + Bypass Anti-Cheat)',
+                category: 'freefire',
+                price: 50000,
+                image: 'https://images.unsplash.com/photo-1538481199705-c710c4e965fc?w=500&q=80',
+                features: ['ລັອກຫົວ 100%', 'No Recoil', 'Bypass v5.0 Undetected'],
+                downloadUrl: 'https://www.mediafire.com/file/laomod_ff_vip_v5.apk/file',
+                scriptCode: 'loadstring(game:HttpGet("https://raw.githubusercontent.com/LaoMods/FFVIP/main/script.lua"))()',
+                platform: 'Android & iOS'
+            },
+            {
+                id: 'rov-mh-01',
+                title: 'ROV Map Hack VIP (ມອງແຜນທີ່ + 120 FPS)',
+                category: 'rov',
+                price: 45000,
+                image: 'https://images.unsplash.com/photo-1511512578047-dfb367046420?w=500&q=80',
+                features: ['ມອງເຫັນສັດຕູທຸກໂຕ', 'ປົດລັອກ FPS ສູງສຸດ 120Hz'],
+                downloadUrl: 'https://www.mediafire.com/file/laomod_rov_mh.zip/file',
+                scriptCode: 'getgenv().ROV_MAP_HACK = true; loadstring(game:HttpGet("https://laomods.la/rov.lua"))()',
+                platform: 'Android & iOS'
+            }
+        ];
+
+        const SECRET_ADMIN_USER = "admin";
+        const ADMIN_SECURITY_PIN = "8888"; 
+        let isRateLimited = false;
+
+        let products = [];
+        let pendingSlips = [];
+        let currentCategory = 'all';
+        let currentUser = null;
+        let allRegisteredUsers = [];
+        let totalOrdersCount = 0;
+
+        window.onload = function() {
+            loadState();
+            renderProducts();
+            renderInventory();
+            renderAdminTable();
+            renderAdminSlips();
+            updateRealStats();
+        };
+
+        function escapeHtml(str) {
+            if (!str) return '';
+            return String(str)
+                .replace(/&/g, '&amp;')
+                .replace(/</g, '&lt;')
+                .replace(/>/g, '&gt;')
+                .replace(/"/g, '&quot;')
+                .replace(/'/g, '&#039;');
+        }
+
+        function loadState() {
+            const savedProducts = localStorage.getItem('laomods_products');
+            if (savedProducts) {
+                try { products = JSON.parse(savedProducts); } catch(e) { products = [...INITIAL_PRODUCTS]; }
+            } else {
+                products = [...INITIAL_PRODUCTS];
+                saveProducts();
+            }
+
+            const savedUsersList = localStorage.getItem('laomods_users_list');
+            if (savedUsersList) {
+                try { allRegisteredUsers = JSON.parse(savedUsersList); } catch(e) { allRegisteredUsers = []; }
+            }
+
+            const savedOrders = localStorage.getItem('laomods_orders_count');
+            if (savedOrders) {
+                totalOrdersCount = parseInt(savedOrders) || 0;
+            }
+
+            const savedUser = localStorage.getItem('laomods_user');
+            if (savedUser) {
+                try { currentUser = JSON.parse(savedUser); } catch(e) { currentUser = null; }
+            }
+            updateUserUI();
+        }
+
+        function saveProducts() {
+            localStorage.setItem('laomods_products', JSON.stringify(products));
+        }
+
+        function saveUser() {
+            localStorage.setItem('laomods_user', JSON.stringify(currentUser));
+            localStorage.setItem('laomods_users_list', JSON.stringify(allRegisteredUsers));
+            localStorage.setItem('laomods_orders_count', totalOrdersCount.toString());
+            updateRealStats();
+        }
+
+        function updateRealStats() {
+            document.getElementById('statTotalUsers').innerText = allRegisteredUsers.length;
+            document.getElementById('statTotalOrders').innerText = totalOrdersCount;
+        }
+
+        function updateUserUI() {
+            const badge = document.getElementById('userBalanceBadge');
+            const navText = document.getElementById('navBalanceText');
+            const area = document.getElementById('navUserArea');
+            const adminBtn = document.getElementById('adminNavBtn');
+
+            if (currentUser) {
+                badge.classList.remove('hidden');
+                badge.classList.add('flex');
+                
+                const isAdmin = currentUser.username.toLowerCase() === SECRET_ADMIN_USER;
+
+                if (isAdmin) {
+                    navText.innerText = "∞ (Admin)";
+                    adminBtn.classList.remove('hidden');
+                    adminBtn.classList.add('flex');
+                } else {
+                    navText.innerText = `${(currentUser.balance || 0).toLocaleString()} ₭`;
+                    adminBtn.classList.add('hidden');
+                    adminBtn.classList.remove('flex');
+                }
+
+                area.innerHTML = `
+                    <div class="flex items-center gap-2 bg-cyber-card border border-purple-500/30 px-3 py-1.5 rounded-xl">
+                        <div class="w-6 h-6 rounded-full bg-gradient-to-tr from-purple-600 to-cyan-500 flex items-center justify-center text-[10px] font-black text-white">
+                            ${escapeHtml(currentUser.username.charAt(0).toUpperCase())}
+                        </div>
+                        <span class="text-xs text-gray-200 font-bold max-w-[90px] truncate">${escapeHtml(currentUser.username)}</span>
+                        <button onclick="logout()" class="text-gray-400 hover:text-red-400 text-xs ml-1" title="ອອກຈາກລະບົບ">
+                            <i class="fa-solid fa-right-from-bracket"></i>
+                        </button>
+                    </div>
+                `;
+            } else {
+                badge.classList.add('hidden');
+                badge.classList.remove('flex');
+                adminBtn.classList.add('hidden');
+                adminBtn.classList.remove('flex');
+
+                area.innerHTML = `
+                    <button onclick="openAuthModal()" class="px-4 py-2 rounded-xl bg-gradient-to-r from-purple-600 to-cyan-600 hover:from-purple-500 hover:to-cyan-500 text-white font-bold text-xs transition-all shadow-lg shadow-purple-600/20 active:scale-95 flex items-center gap-2">
+                        <i class="fa-solid fa-right-to-bracket"></i>
+                        <span>ເຂົ້າສູ່ລະບົບ</span>
+                    </button>
+                `;
+            }
+        }
+
+        function renderProducts(items = null) {
+            const grid = document.getElementById('productGrid');
+            const empty = document.getElementById('emptyState');
+            const countElem = document.getElementById('productCount');
+
+            let list = items || products;
+            if (currentCategory === 'free') {
+                list = products.filter(p => p.price === 0);
+            } else if (currentCategory !== 'all' && !items) {
+                list = products.filter(p => p.category === currentCategory);
+            }
+
+            countElem.innerText = `${list.length} ລາຍການ`;
+
+            if (list.length === 0) {
+                grid.innerHTML = '';
+                empty.classList.remove('hidden');
+                return;
+            }
+
+            empty.classList.add('hidden');
+            grid.innerHTML = list.map(item => `
+                <div class="glass rounded-2xl overflow-hidden border border-cyber-border hover:border-cyan-500/50 transition-all duration-300 flex flex-col justify-between glow-neon-purple group">
+                    <div>
+                        <div class="relative h-44 overflow-hidden bg-cyber-black">
+                            <img src="${escapeHtml(item.image)}" alt="${escapeHtml(item.title)}" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500" onerror="this.src='https://placehold.co/600x400/151b28/06b6d4?text=LAO+MODS'">
+                            <div class="absolute top-3 left-3 bg-cyber-black/80 backdrop-blur-md px-2.5 py-1 rounded-lg text-[10px] font-bold text-cyan-400 border border-cyan-500/30 uppercase">
+                                ${getCategoryName(item.category)}
+                            </div>
+                            ${item.price === 0 ? `
+                                <div class="absolute top-3 right-3 bg-emerald-500 text-black text-[10px] font-black px-2.5 py-0.5 rounded-full shadow-lg animate-bounce">
+                                    🎁 ໂປຣຟຣີ FREE
+                                </div>
+                            ` : ''}
+                        </div>
+
+                        <div class="p-4">
+                            <h3 class="font-bold text-white text-sm line-clamp-2 mb-2 group-hover:text-cyan-300 transition-colors">${escapeHtml(item.title)}</h3>
+                            <ul class="space-y-1 my-3">
+                                ${item.features.map(f => `
+                                    <li class="text-[11px] text-gray-400 flex items-center gap-1.5">
+                                        <i class="fa-solid fa-circle-check text-cyan-400 text-[10px]"></i>
+                                        <span class="truncate">${escapeHtml(f)}</span>
+                                    </li>
+                                `).join('')}
+                            </ul>
+                        </div>
+                    </div>
+
+                    <div class="p-4 pt-0 border-t border-cyber-border/60 mt-2 flex items-center justify-between gap-2">
+                        <div>
+                            <span class="text-[9px] text-gray-400 block">ລາຄາ</span>
+                            ${item.price === 0 ? 
+                                `<span class="text-base font-extrabold text-emerald-400 font-mono">0 ₭ (FREE)</span>` : 
+                                `<span class="text-base font-extrabold text-cyan-400 font-mono">${item.price.toLocaleString()} ₭</span>`
+                            }
+                        </div>
+                        <div class="flex gap-1.5">
+                            <button onclick="openDetailModal('${item.id}')" class="px-2.5 py-2 rounded-xl bg-cyber-dark hover:bg-cyber-card border border-cyber-border text-gray-300 text-xs font-semibold" title="ເບິ່ງລາຍລະອຽດ">
+                                <i class="fa-solid fa-eye"></i>
+                            </button>
+                            <button onclick="buyProduct('${item.id}')" class="px-3.5 py-2 rounded-xl ${item.price === 0 ? 'bg-gradient-to-r from-emerald-600 to-teal-500' : 'bg-gradient-to-r from-purple-600 to-cyan-600'} text-white font-bold text-xs shadow-md active:scale-95 transition-all flex items-center gap-1">
+                                <i class="fa-solid ${item.price === 0 ? 'fa-download' : 'fa-cart-shopping'}"></i>
+                                <span>${item.price === 0 ? 'ຮັບໂປຣຟຣີ' : 'ຊື້ເລີຍ'}</span>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        function getCategoryName(cat) {
+            switch(cat) {
+                case 'freefire': return 'Free Fire';
+                case 'rov': return 'ROV / MLBB';
+                case 'roblox': return 'Roblox';
+                case 'pubg': return 'PUBG Mobile';
+                default: return 'General';
+            }
+        }
+
+        function filterCategory(cat) {
+            currentCategory = cat;
+            document.querySelectorAll('.cat-btn').forEach(btn => {
+                btn.className = 'cat-btn px-4 py-2 rounded-xl font-bold text-xs transition-all flex items-center gap-2 whitespace-nowrap bg-cyber-card text-gray-400 border border-cyber-border hover:border-purple-500/50 hover:text-white';
+            });
+
+            const activeBtn = document.getElementById(`btn-cat-${cat}`);
+            if (activeBtn) {
+                activeBtn.className = 'cat-btn px-4 py-2 rounded-xl font-bold text-xs transition-all flex items-center gap-2 whitespace-nowrap bg-purple-600 text-white shadow-lg shadow-purple-600/30';
+            }
+
+            const titles = {
+                'all': 'ໂປຣເກມທັງໝົດ',
+                'free': '🎁 ໂປຣຟຣີ (FREE MODS)',
+                'freefire': 'ໂປຣເກມ Free Fire',
+                'rov': 'ໂປຣເກມ ROV & Mobile Legends',
+                'roblox': 'ໂປຣເກມ Roblox',
+                'pubg': 'ໂປຣເກມ PUBG Mobile'
+            };
+            document.getElementById('categoryTitle').innerText = titles[cat] || 'ໂປຣເກມ';
+            renderProducts();
+        }
+
+        function handleSearch() {
+            const query = document.getElementById('searchInput').value.toLowerCase().trim();
+            if (!query) {
+                renderProducts();
+                return;
+            }
+            const filtered = products.filter(p => 
+                p.title.toLowerCase().includes(query) || 
+                p.category.toLowerCase().includes(query)
+            );
+            renderProducts(filtered);
+        }
+
+        function openDetailModal(id) {
+            const prod = products.find(p => p.id === id);
+            if (!prod) return;
+
+            document.getElementById('detailImage').src = prod.image;
+            document.getElementById('detailTitle').innerText = prod.title;
+            document.getElementById('detailCategory').innerText = getCategoryName(prod.category);
+            document.getElementById('detailPrice').innerText = prod.price === 0 ? '0 ₭ (FREE)' : `${prod.price.toLocaleString()} ₭`;
+            document.getElementById('detailPlatform').innerText = prod.platform || 'Android & iOS';
+            document.getElementById('detailDesc').innerText = `ຄຸນສົມບັດ: ${prod.features.join(' • ')}`;
+            
+            const buyBtn = document.getElementById('detailBuyBtn');
+            buyBtn.onclick = () => { closeDetailModal(); buyProduct(prod.id); };
+
+            document.getElementById('detailModal').classList.remove('hidden');
+        }
+
+        function closeDetailModal() {
+            document.getElementById('detailModal').classList.add('hidden');
+        }
+
+        function buyProduct(id) {
+            if (isRateLimited) return;
+            isRateLimited = true;
+            setTimeout(() => isRateLimited = false, 800);
+
+            if (!currentUser) {
+                showToast('ກະລຸນາເຂົ້າສູ່ລະບົບກ່ອນ', 'info');
+                openAuthModal();
+                return;
+            }
+
+            const prod = products.find(p => p.id === id);
+            if (!prod) return;
+
+            const isAdmin = currentUser.username.toLowerCase() === SECRET_ADMIN_USER;
+
+            if (prod.price > 0 && !isAdmin && (currentUser.balance || 0) < prod.price) {
+                showToast(`ຍອດເງິນບໍ່ພໍ! (${(currentUser.balance || 0).toLocaleString()} ₭) ກະລຸນາເຕີມເງິນ`, 'info');
+                openTopUpModal();
+                return;
+            }
+
+            if (!isAdmin && prod.price > 0) {
+                currentUser.balance -= prod.price;
+            }
+
+            if (!currentUser.purchases.includes(prod.id)) {
+                currentUser.purchases.push(prod.id);
+            }
+
+            totalOrdersCount++;
+            saveUser();
+            updateUserUI();
+
+            showToast(prod.price === 0 ? 'ຮັບໂປຣຟຣີສຳເລັດ! ກົດລິ້ງໃຊ້ງານໄດ້ເລີຍ' : 'ສັ່ງຊື້ສຳເລັດ! ກວດເບິ່ງລິ້ງໃນຄັງໂປຣ', 'success');
+            openInventoryModal();
+        }
+
+        function openInventoryModal() {
+            if (!currentUser) {
+                openAuthModal();
+                return;
+            }
+            renderInventory();
+            document.getElementById('inventoryModal').classList.remove('hidden');
+        }
+
+        function closeInventoryModal() {
+            document.getElementById('inventoryModal').classList.add('hidden');
+        }
+
+        function renderInventory() {
+            const listElem = document.getElementById('inventoryList');
+            if (!currentUser || currentUser.purchases.length === 0) {
+                listElem.innerHTML = `
+                    <div class="text-center py-8 text-gray-500">
+                        <i class="fa-solid fa-box-open text-3xl mb-2"></i>
+                        <p class="text-xs">ທ່ານຍັງບໍ່ທັນມີໂປຣເກມທີ່ສັ່ງຊື້/ຮັບຟຣີ</p>
+                    </div>
+                `;
+                return;
+            }
+
+            const myProds = products.filter(p => currentUser.purchases.includes(p.id));
+            listElem.innerHTML = myProds.map(p => `
+                <div class="bg-cyber-dark p-3.5 rounded-xl border border-cyber-border flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3">
+                    <div class="flex items-center space-x-3">
+                        <img src="${escapeHtml(p.image)}" class="w-12 h-12 object-cover rounded-lg border border-cyber-border" onerror="this.src='https://placehold.co/100/151b28/ffffff?text=X'">
+                        <div>
+                            <h4 class="font-bold text-white text-xs">${escapeHtml(p.title)}</h4>
+                            <span class="text-[10px] text-cyan-400 font-mono block">Key: ${escapeHtml(p.scriptCode)}</span>
+                        </div>
+                    </div>
+                    <div class="flex items-center gap-2 w-full sm:w-auto">
+                        <button onclick="copyToClipboard('${escapeHtml(p.scriptCode)}')" class="px-3 py-1.5 rounded-lg bg-cyber-card border border-cyber-border text-gray-300 hover:text-white font-bold text-[11px] flex items-center gap-1">
+                            <i class="fa-solid fa-copy"></i>
+                            <span>ກັອບໂຄດ</span>
+                        </button>
+                        <a href="${escapeHtml(p.downloadUrl)}" target="_blank" class="px-3.5 py-1.5 rounded-lg bg-emerald-600 hover:bg-emerald-500 text-white font-bold text-[11px] flex items-center gap-1 shadow-md">
+                            <i class="fa-solid fa-arrow-up-right-from-square"></i>
+                            <span>🔗 ເປີດລິ້ງໃຊ້ງານ</span>
+                        </a>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        function copyToClipboard(text) {
+            const dummy = document.createElement("textarea");
+            document.body.appendChild(dummy);
+            dummy.value = text;
+            dummy.select();
+            document.execCommand("copy");
+            document.body.removeChild(dummy);
+            showToast('ຄັດລອກສຳເລັດແລ້ວ!', 'success');
+        }
+
+        function claimDailyReward() {
+            if (!currentUser) {
+                openAuthModal();
+                return;
+            }
+            const today = new Date().toDateString();
+            const lastClaim = localStorage.getItem(`laomods_claim_${currentUser.username}`);
+
+            if (lastClaim === today) {
+                showToast('ທ່ານໄດ້ຮັບໂບນັດຟຣີຂອງມື້ນີ້ໄປແລ້ວ! ກະລຸນາມາໃໝ່ມື້ອື່ນ', 'info');
+                return;
+            }
+
+            const reward = 5000;
+            currentUser.balance = (currentUser.balance || 0) + reward;
+            localStorage.setItem(`laomods_claim_${currentUser.username}`, today);
+            saveUser();
+            updateUserUI();
+            showToast(`🎉 ຮັບໂບນັດຟຣີ ${reward.toLocaleString()} ₭ ສຳເລັດ!`, 'success');
+        }
+
+        function openTopUpModal() {
+            if (!currentUser) {
+                openAuthModal();
+                return;
+            }
+            generateBCELQR();
+            document.getElementById('topUpModal').classList.remove('hidden');
+        }
+
+        function closeTopUpModal() {
+            document.getElementById('topUpModal').classList.add('hidden');
+        }
+
+        function selectTopUpAmount(amt) {
+            document.getElementById('customTopUpAmount').value = amt;
+            generateBCELQR();
+        }
+
+        function generateBCELQR() {
+            const amt = parseInt(document.getElementById('customTopUpAmount').value) || 10000;
+            const qrImg = document.getElementById('bcelQrImage');
+            qrImg.src = `https://api.qrserver.com/v1/create-qr-code/?size=180x180&data=BCELONE_LAK_${amt}_LAO_MOD_STORE`;
+        }
+
+        function handleSlipUpload(e) {
+            e.preventDefault();
+            const amt = parseInt(document.getElementById('customTopUpAmount').value) || 10000;
+            
+            pendingSlips.push({
+                id: 'slip-' + Date.now(),
+                user: currentUser.username,
+                amount: amt,
+                time: new Date().toLocaleTimeString(),
+                status: 'Pending'
+            });
+
+            currentUser.balance = (currentUser.balance || 0) + amt;
+            saveUser();
+            updateUserUI();
+
+            closeTopUpModal();
+            showToast(`ອັບໂຫຼດສະລິບສຳເລັດ! ເຕີມເງິນເຂົ້າ ${amt.toLocaleString()} ₭ ແລ້ວ`, 'success');
+            renderAdminSlips();
+        }
+
+        function openAuthModal() {
+            document.getElementById('authModal').classList.remove('hidden');
+        }
+
+        function closeAuthModal() {
+            document.getElementById('authModal').classList.add('hidden');
+        }
+
+        function switchAuthTab(mode) {
+            const tabL = document.getElementById('tabLogin');
+            const tabR = document.getElementById('tabRegister');
+            const submitBtn = document.getElementById('authSubmitBtn');
+
+            if (mode === 'login') {
+                tabL.className = 'flex-1 pb-3 text-center text-xs font-extrabold border-b-2 border-purple-500 text-purple-400';
+                tabR.className = 'flex-1 pb-3 text-center text-xs font-extrabold border-b-2 border-transparent text-gray-400 hover:text-gray-200';
+                submitBtn.innerText = 'ເຂົ້າສູ່ລະບົບ';
+            } else {
+                tabR.className = 'flex-1 pb-3 text-center text-xs font-extrabold border-b-2 border-purple-500 text-purple-400';
+                tabL.className = 'flex-1 pb-3 text-center text-xs font-extrabold border-b-2 border-transparent text-gray-400 hover:text-gray-200';
+                submitBtn.innerText = 'ສະໝັກສະມາຊິກໃໝ່ (ຍອດເງິນ 0 ₭)';
+            }
+        }
+
+        function handleAuthSubmit(e) {
+            e.preventDefault();
+            const username = document.getElementById('authUsername').value.trim();
+            if (!username) return;
+
+            const isAdmin = username.toLowerCase() === SECRET_ADMIN_USER;
+
+            let existing = allRegisteredUsers.find(u => u.username.toLowerCase() === username.toLowerCase());
+            if (existing) {
+                currentUser = existing;
+            } else {
+                currentUser = {
+                    username: username,
+                    balance: isAdmin ? 999999999 : 0,
+                    purchases: []
+                };
+                allRegisteredUsers.push(currentUser);
+            }
+
+            saveUser();
+            updateUserUI();
+            closeAuthModal();
+            showToast(`ເຂົ້າສູ່ລະບົບສຳເລັດ: ${username}`, 'success');
+        }
+
+        function logout() {
+            currentUser = null;
+            localStorage.removeItem('laomods_user');
+            updateUserUI();
+            showToast('ອອກຈາກລະບົບແລ້ວ', 'info');
+        }
+
+        function openAdminSecurityModal() {
+            if (!currentUser || currentUser.username.toLowerCase() !== SECRET_ADMIN_USER) return;
+            document.getElementById('adminPinModal').classList.remove('hidden');
+        }
+
+        function closeAdminPinModal() {
+            document.getElementById('adminPinModal').classList.add('hidden');
+        }
+
+        function verifyAdminPin(e) {
+            e.preventDefault();
+            const pin = document.getElementById('adminPinInput').value;
+            if (pin === ADMIN_SECURITY_PIN) {
+                closeAdminPinModal();
+                toggleAdminPanel();
+                showToast('ยืนยัน Admin Security PIN สำเร็จ!', 'success');
+            } else {
+                showToast(' Security PIN ไม่ถูกต้อง!', 'info');
+            }
+        }
+
+        function toggleAdminPanel() {
+            const modal = document.getElementById('adminModal');
+            if (modal.classList.contains('hidden')) {
+                modal.classList.remove('hidden');
+                renderAdminTable();
+                renderAdminSlips();
+            } else {
+                modal.classList.add('hidden');
+            }
+        }
+
+        function switchAdminTab(tab) {
+            document.getElementById('admSecScripts').classList.add('hidden');
+            document.getElementById('admSecSlips').classList.add('hidden');
+            document.getElementById('admTabScripts').className = 'px-4 py-2 rounded-xl text-xs font-bold bg-cyber-dark text-gray-400 border border-cyber-border';
+            document.getElementById('admTabSlips').className = 'px-4 py-2 rounded-xl text-xs font-bold bg-cyber-dark text-gray-400 border border-cyber-border';
+
+            if (tab === 'scripts') {
+                document.getElementById('admSecScripts').classList.remove('hidden');
+                document.getElementById('admTabScripts').className = 'px-4 py-2 rounded-xl text-xs font-bold bg-yellow-500 text-black';
+            } else if (tab === 'slips') {
+                document.getElementById('admSecSlips').classList.remove('hidden');
+                document.getElementById('admTabSlips').className = 'px-4 py-2 rounded-xl text-xs font-bold bg-yellow-500 text-black';
+            }
+        }
+
+        function renderAdminTable() {
+            const tbody = document.getElementById('adminTableBody');
+            tbody.innerHTML = products.map(p => `
+                <tr class="hover:bg-cyber-card/60">
+                    <td class="p-3">
+                        <img src="${escapeHtml(p.image)}" class="w-10 h-10 object-cover rounded-lg border border-cyber-border" onerror="this.src='https://placehold.co/100/151b28/ffffff?text=X'">
+                    </td>
+                    <td class="p-3 font-bold text-white max-w-[150px] truncate">${escapeHtml(p.title)}</td>
+                    <td class="p-3 text-cyan-400">${getCategoryName(p.category)}</td>
+                    <td class="p-3 font-mono">${p.price === 0 ? 'FREE' : p.price.toLocaleString() + ' ₭'}</td>
+                    <td class="p-3 font-mono text-[10px] text-emerald-400 max-w-[120px] truncate"><a href="${escapeHtml(p.downloadUrl)}" target="_blank" class="hover:underline">${escapeHtml(p.downloadUrl)}</a></td>
+                    <td class="p-3 text-center space-x-2">
+                        <button onclick="editProduct('${p.id}')" class="px-2.5 py-1 bg-yellow-500/20 text-yellow-400 border border-yellow-500/30 rounded-lg hover:bg-yellow-500 hover:text-black font-bold">ແກ້ໄຂ</button>
+                        <button onclick="deleteProduct('${p.id}')" class="px-2.5 py-1 bg-red-600/20 text-red-400 border border-red-500/30 rounded-lg hover:bg-red-600 hover:text-white font-bold">ລົບ</button>
+                    </td>
+                </tr>
+            `).join('');
+        }
+
+        function handleSaveProduct(e) {
+            e.preventDefault();
+            const id = document.getElementById('editProductId').value;
+            const title = document.getElementById('adminTitle').value;
+            const category = document.getElementById('adminCategory').value;
+            const price = parseInt(document.getElementById('adminPrice').value) || 0;
+            const image = document.getElementById('adminImage').value;
+            const downloadUrl = document.getElementById('adminDownloadUrl').value;
+            const featuresStr = document.getElementById('adminFeatures').value;
+            const scriptCode = document.getElementById('adminScriptCode').value;
+
+            const features = featuresStr ? featuresStr.split(',').map(f => f.trim()) : ['ປອດໄພ 100%'];
+
+            if (id) {
+                const idx = products.findIndex(p => p.id === id);
+                if (idx !== -1) {
+                    products[idx] = { ...products[idx], title, category, price, image, downloadUrl, features, scriptCode };
+                    showToast('ອັບເດດສຳເລັດ!', 'success');
+                }
+            } else {
+                const newId = 'prod-' + Date.now();
+                products.push({ id: newId, title, category, price, image, downloadUrl, features, scriptCode, platform: 'Android & iOS' });
+                showToast('ເພີ່ມສິນຄ້າ/ໂປຣໃໝ່ສຳເລັດ!', 'success');
+            }
+
+            saveProducts();
+            renderProducts();
+            renderAdminTable();
+            resetAdminForm();
+        }
+
+        function editProduct(id) {
+            const p = products.find(item => item.id === id);
+            if (!p) return;
+
+            document.getElementById('editProductId').value = p.id;
+            document.getElementById('adminTitle').value = p.title;
+            document.getElementById('adminCategory').value = p.category;
+            document.getElementById('adminPrice').value = p.price;
+            document.getElementById('adminImage').value = p.image;
+            document.getElementById('adminDownloadUrl').value = p.downloadUrl || '';
+            document.getElementById('adminFeatures').value = p.features.join(', ');
+            document.getElementById('adminScriptCode').value = p.scriptCode;
+
+            document.getElementById('adminSubmitBtn').innerHTML = '<i class="fa-solid fa-floppy-disk mr-1"></i> ບັນທຶກການແກ້ໄຂ';
+        }
+
+        function deleteProduct(id) {
+            products = products.filter(p => p.id !== id);
+            saveProducts();
+            renderProducts();
+            renderAdminTable();
+            showToast('ລົບສິນຄ້າອອກແລ້ວ', 'info');
+        }
+
+        function resetAdminForm() {
+            document.getElementById('adminProductForm').reset();
+            document.getElementById('editProductId').value = '';
+            document.getElementById('adminSubmitBtn').innerHTML = '<i class="fa-solid fa-plus mr-1"></i> ເພີ່ມໂປຣເກມໃໝ່';
+        }
+
+        function renderAdminSlips() {
+            const tbody = document.getElementById('adminSlipsTableBody');
+            document.getElementById('pendingSlipsCount').innerText = pendingSlips.length;
+
+            tbody.innerHTML = pendingSlips.map(s => `
+                <tr class="hover:bg-cyber-card/60">
+                    <td class="p-3 font-bold text-white">${escapeHtml(s.user)}</td>
+                    <td class="p-3 font-mono text-cyan-400 font-bold">${s.amount.toLocaleString()} ₭</td>
+                    <td class="p-3 text-gray-400 text-[11px]">${s.time}</td>
+                    <td class="p-3"><span class="px-2 py-0.5 rounded text-[10px] bg-yellow-500/20 text-yellow-400 border border-yellow-500/30 font-bold">${s.status}</span></td>
+                    <td class="p-3 text-center">
+                        <button onclick="approveSlip('${s.id}')" class="px-3 py-1 bg-emerald-600/20 text-emerald-400 border border-emerald-500/30 rounded-lg hover:bg-emerald-600 hover:text-white font-bold">ອະນຸມັດ</button>
+                    </td>
+                </tr>
+            `).join('');
+        }
+
+        function approveSlip(id) {
+            pendingSlips = pendingSlips.filter(s => s.id !== id);
+            renderAdminSlips();
+            showToast('ອະນຸມັດສະລິບສຳເລັດ!', 'success');
+        }
+
+        function showToast(msg, type = 'info') {
+            const toast = document.getElementById('toast');
+            const toastMsg = document.getElementById('toastMsg');
+            const toastIcon = document.getElementById('toastIcon');
+
+            toastMsg.innerText = msg;
+            toastIcon.className = type === 'success' ? 'fa-solid fa-circle-check text-emerald-400 text-lg' : 'fa-solid fa-circle-info text-cyan-400 text-lg';
+
+            toast.classList.remove('hidden', 'translate-y-10', 'opacity-0');
+            setTimeout(() => {
+                toast.classList.add('translate-y-10', 'opacity-0');
+                setTimeout(() => toast.classList.add('hidden'), 300);
+            }, 3000);
+        }
+    </script>
+</body>
+</html>
+
+
+    <!-- Navigation Bar -->
+    <nav class="sticky top-0 z-40 glass border-b border-cyber-border px-4 lg:px-8 py-3">
+        <div class="max-w-7xl mx-auto flex items-center justify-between gap-4">
+            <!-- Brand Logo -->
+            <div class="flex items-center space-x-3 cursor-pointer" onclick="filterCategory('all')">
+                <div class="w-11 h-11 rounded-2xl bg-gradient-to-tr from-purple-600 via-cyan-400 to-pink-500 p-[2px] flex items-center justify-center shadow-lg shadow-purple-600/30">
+                    <div class="w-full h-full bg-cyber-black rounded-[14px] flex items-center justify-center">
+                        <i class="fa-solid fa-laptop-code text-cyan-400 text-2xl"></i>
+                    </div>
+                </div>
+                <div>
+                    <div class="flex items-center gap-2">
+                        <span class="text-2xl font-black bg-gradient-to-r from-purple-400 via-cyan-400 to-pink-500 bg-clip-text text-transparent">LAO MODS</span>
                         <span class="bg-cyan-500/10 border border-cyan-500/30 text-cyan-300 text-[10px] font-bold px-2 py-0.5 rounded-full">v5.0 PRO</span>
                     </div>
                     <p class="text-[10px] text-gray-400 font-medium">ຮ້ານຂາຍໂປຣເກມມືຖື ອັນດັບ 1 ໃນລາວ</p>
